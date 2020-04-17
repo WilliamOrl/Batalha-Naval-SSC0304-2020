@@ -4,7 +4,7 @@ int main(void){
 	int aux;
 	
 	printf("Bem Vindo a Batalha Naval!\n");		//inicio do programa 
-	printf("Precione:\n 1-Iniciar \n2-Ajuda\n3-Sair\n");
+	printf("Precione:\n1-Iniciar \n2-Ajuda\n3-Sair\n");
 	scanf("%d",aux);
 	
 	switch (aux){
