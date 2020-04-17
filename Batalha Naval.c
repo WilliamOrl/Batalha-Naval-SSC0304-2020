@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+#define P 11		// Porta-aviões		qtd.1
+#define C 11		// Couraçado		qtd.2 	
+#define T 7			// Torpedeiros		qtd.3
+#define H 8			// Hidroaviões		qtd.4
 
 int inicicar_matrizes(int *campo1,int *campo2);
 
