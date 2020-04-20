@@ -171,7 +171,7 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 	}	
 
 //====================================================================
-//		Desenhando as o campo de batalha 
+//		Desenhando o campo de batalha 
 //====================================================================
 	
 void Matriz_imagem(int campo[16][16], int jogador){			// Adiciona a imagem da matriz 
