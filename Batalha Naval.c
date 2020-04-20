@@ -26,7 +26,7 @@ int main(void){
 }
 
 //====================================================================
-//						Menu de Inicio
+//		Menu de Inicio
 //====================================================================
 
 int	Menu_de_Inicio(void){
@@ -56,7 +56,7 @@ inicio:
 }
 
 //====================================================================
-//						Menu de Ajuda
+//		Menu de Ajuda
 //====================================================================
 
 void Ajuda(void){		
@@ -82,7 +82,7 @@ void Ajuda(void){
 }
 
 //====================================================================
-//						Menu de Comandos
+//		Menu de Comandos
 //====================================================================
 
 void Comandos(void){
@@ -93,7 +93,7 @@ void Comandos(void){
 }
 
 //====================================================================
-//						Inicializaca das matrizes
+//		Inicializaca das matrizes
 //====================================================================
 
 void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
@@ -101,7 +101,7 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 	}	
 
 //====================================================================
-//					Desenhando as o campo de batalha 
+//		Desenhando as o campo de batalha 
 //====================================================================
 	
 void Matriz_imagem(int campo[16][16], int jogador){			// Adiciona a imagem da matriz 
