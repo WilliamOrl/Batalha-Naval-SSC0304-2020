@@ -1,27 +1,63 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define P 11		// Porta-avioes		qtd.1
 #define C 11		// Couraçado		qtd.2 	
 #define T 7			// Torpedeiros		qtd.3
 #define H 8			// Hidroavioes		qtd.4
 
-int 	Menu_de_Inicio(void);
-void	Comandos(void);
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);
-void 	Ajuda(void);
-void	Matriz_imagem(int campo[16][16],int jogador);
+//====================================================================
+//		Lista de funções
+//====================================================================
 
+int 	Menu_de_Inicio(void);										//start do jogo para o usuario
+int		Comandos(char*comando);										//Le os comandos digitados		
+void 	Ajuda(void);												//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);	//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador);				//Imprime o tabuleiro da batalha naval
+
+
+//====================================================================
+//		Inicio
+//====================================================================
 
 int main(void){
 	int aux;
 	int campo1[16][16],campo2[16][16];
-	
+	char comando[30];
+
+
+
 	aux = Menu_de_Inicio();
-		if(aux==1)	return 0;
-		
+ret:	if(aux==1)	return 0;
+
+	//Iniciar_matrizes(campo1,campo2);
+			
 	while(1){
-		Matriz_imagem(campo1,1);
-		Comandos();
+ret1:	Matriz_imagem(campo1,1);
+		aux = Comandos(comando);
+		switch (aux){
+			case 0:						//Tiro			
+				
+				break;
+			case 1:						//Reset
+				
+				break;
+			case 2:						//Sair
+				aux = 1;
+				goto ret;
+				break;
+			case 3:						//Ajuda
+				Ajuda();
+				goto ret1;
+				break;
+			case 4:						//Acaso
+				
+				break;
+		}
+		
 	}
 }
 
@@ -33,13 +69,13 @@ int	Menu_de_Inicio(void){
 	int aux;	
 
 inicio:	
-	printf("Bem Vindo a Batalha Naval!\n");		//inicio do programa 
-	printf("Precione:\n1-Iniciar \n2-Ajuda\n3-Sair\n");
+	system("cls");
+	printf("Bem Vindo a Batalha Naval!\n");		
+	printf("Precione:\n1-Iniciar \n2-Ajuda\n3-Sair\nSelecione:");
 	scanf("%d",&aux);
 	
 	switch (aux){
 		case 1:
-			//iniciar_matrizes(campo1,campo2);
 			return 0;		
 		break;
 		
@@ -85,18 +121,52 @@ void Ajuda(void){
 //		Menu de Comandos
 //====================================================================
 
-void Comandos(void){
-	char comando [10];
-	printf("\nInsira o Comando:");
-	scanf("%s",&comando);
-	return;
+int Comandos(char *comando){
+	while(1){
+		char comandoint[30];
+		
+		printf("\nInsira o Comando: ");
+		scanf("%s",&comandoint);
+		
+		if(comandoint[0] == 'p' && comandoint[1] == 'o' && comandoint[2] == 'w')
+			return 0;
+		
+		else if(comandoint[0] == 'R' && comandoint[1] == 'e' && comandoint[2] == 's' && comandoint[3] == 'e' && comandoint[4] == 't')
+			return	1;
+		
+		else if(comandoint[0] == 'S' && comandoint[1] == 'a' && comandoint[2] == 'i' && comandoint[3] == 'r')
+			return	2;
+		
+		else if(comandoint[0] == 'A' && comandoint[1] == 'j' && comandoint[2] == 'u' && comandoint[3] == 'd' && comandoint[4] == 'a')
+			return	3;
+		
+		else if(comandoint[0] == 'A' && comandoint[1] == 'c' && comandoint[2] == 'a' && comandoint[3] == 's' && comandoint[4] == 'o')
+			return	4;
+					
+		else
+			printf("Digite novamente\n");
+		//if(comando == 'Reset')
+		//return;
+	}
 }
 
 //====================================================================
-//		Inicializaca das matrizes
+//		Inicialização das matrizes
 //====================================================================
 
 void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
+		unsigned int aux,i,j;	
+		
+		//porta avioes 
+		srand(time(NULL));
+		aux = rand() %16;
+		
+		//couraçado
+		for(i=0;i!=2;i++){
+			srand(time(NULL));
+			aux = rand() %16;
+		}
+			
 			
 	}	
 
