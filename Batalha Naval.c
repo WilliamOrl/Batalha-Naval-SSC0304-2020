@@ -5,13 +5,32 @@
 #define T 7			// Torpedeiros		qtd.3
 #define H 8			// Hidroavioes		qtd.4
 
+int 	Menu_de_Inicio(void);
+void	Comandos(void);
 void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);
 void 	Ajuda(void);
 void	Matriz_imagem(int campo[16][16],int jogador);
 
+
 int main(void){
 	int aux;
 	int campo1[16][16],campo2[16][16];
+	
+	aux = Menu_de_Inicio();
+		if(aux==1)	return 0;
+		
+	while(1){
+		Matriz_imagem(campo1,1);
+		Comandos();
+	}
+}
+
+//====================================================================
+//						Menu de Inicio
+//====================================================================
+
+int	Menu_de_Inicio(void){
+	int aux;	
 
 inicio:	
 	printf("Bem Vindo a Batalha Naval!\n");		//inicio do programa 
@@ -21,7 +40,7 @@ inicio:
 	switch (aux){
 		case 1:
 			//iniciar_matrizes(campo1,campo2);
-			Matriz_imagem(campo1,1);
+			return 0;		
 		break;
 		
 		case 2:
@@ -30,12 +49,17 @@ inicio:
 		break;
 		
 		case 3:
-			
+			return 1;
 		break;	
-	}
+
+	}	
 }
 
-void Ajuda(void){		//Menu de ajuda 
+//====================================================================
+//						Menu de Ajuda
+//====================================================================
+
+void Ajuda(void){		
 	char c;
 	
 	system("cls");
@@ -57,11 +81,30 @@ void Ajuda(void){		//Menu de ajuda
 	}
 }
 
+//====================================================================
+//						Menu de Comandos
+//====================================================================
+
+void Comandos(void){
+	char comando [10];
+	printf("\nInsira o Comando:");
+	scanf("%s",&comando);
+	return;
+}
+
+//====================================================================
+//						Inicializaca das matrizes
+//====================================================================
+
 void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
-				
+			
 	}	
+
+//====================================================================
+//					Desenhando as o campo de batalha 
+//====================================================================
 	
-void Matriz_imagem(int campo[16][16], int jogador){
+void Matriz_imagem(int campo[16][16], int jogador){			// Adiciona a imagem da matriz 
 	int i,j,aux=1;
 	int numero = 1;
 	char letra = 'A';
@@ -97,11 +140,11 @@ void Matriz_imagem(int campo[16][16], int jogador){
 		
 		if(numero>10){
 			for (j=0;j!=16;j++)
-				printf(" |   |  "/*,imagem_campo[i][j]*/);
+				printf(" |   |  "/*,imagem_campo[i][j]*/);		//add o %c dentro das chaves
 			
 		}else if(numero<=10){
 			for (j=0;j!=16;j++)
-				printf("  |   | "/*,imagem_campo[i][j]*/);
+				printf("  |   | "/*,imagem_campo[i][j]*/);		//add o %c dentro das chaves
 		}
 		
 		printf("\n");
