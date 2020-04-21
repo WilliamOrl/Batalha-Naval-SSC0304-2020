@@ -175,14 +175,19 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		
 		//couraçado
 		iden = 2;
-	//	for(i=0;i!=2;i++)	
+		for(i=0;i!=2;i++)	
 			Escrita_na_matriz(campo1,C,iden); 
 			
 			
 		//torpedeiro
-	//	iden = 3;
-	//	for(i=0;i!=3;i++)	
-	//		Escrita_na_matriz(campo1,T,iden); 	
+		iden = 3;
+		for(i=0;i!=3;i++)	
+			Escrita_na_matriz(campo1,T,iden); 
+			
+		//hidroaviao
+		iden = 4;
+		for(i=0;i!=4;i++)	
+			Escrita_na_matriz(campo1,H,iden);		
 	}	
 
 
@@ -197,6 +202,7 @@ void Escrita_na_matriz(int mat[16][16], int N, int iden){
 	unsigned int aux,aux2,n_char,x,y,vert_hor,pos_neg,i,j;
 
 inicio:		
+		n_char=0;
 		aux = ALTO;
 		aux2 = FLUTUANTE;
 		
@@ -239,12 +245,13 @@ direita:			if(pos_neg == 0){					//direita
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
+									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 1;	
 									goto vert;
 								}	
-							
+								n_char=0;
 								aux = BAIXO;
 								pos_neg = 1;
 								goto esquerda;
@@ -274,12 +281,13 @@ esquerda:			if(pos_neg == 1){					//esquerda
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
+									n_char=0;
 									aux = ALTO;		
 									aux2 = BAIXO;						
 									vert_hor = 1;	
 									goto vert;
 								}
-							
+								n_char=0;
 								aux = BAIXO;
 								pos_neg = 0;
 								goto direita; 
@@ -318,12 +326,13 @@ baixo:				if(pos_neg == 0){					//baixo
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
+									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 0;	
 									goto hor;
 								}
-								
+								n_char=0;
 								aux = BAIXO;
 								pos_neg = 1;
 								goto cima; 
@@ -354,12 +363,13 @@ cima:				if(pos_neg == 1){					//cima
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
+									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 0;	
 									goto hor;
 								}
-								
+								n_char=0;
 								aux = BAIXO;
 								pos_neg = 0;
 								goto baixo;	 
@@ -390,7 +400,11 @@ void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq
 				imgcampo[i][j] = 'C';							// Desenha couraçado
 				
 			if(campo[i][j] == 3)								
-				imgcampo[i][j] = 'T';							// Desenha torperdeiro	
+				imgcampo[i][j] = 'T';							// Desenha torperdeiro
+			
+			if(campo[i][j] == 4)								
+				imgcampo[i][j] = 'H';							// Desenha hidroaviao1
+						
 		}
 	return;
 }
