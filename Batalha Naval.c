@@ -174,9 +174,9 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		
 		
 		//couraçado
-		iden = 2;
-		for(i=0;i!=2;i++)	
-			Escrita_na_matriz(campo1,C,iden); 
+	//	iden = 2;
+	//	for(i=0;i!=2;i++)	
+	//		Escrita_na_matriz(campo1,C,iden); 
 			
 	}	
 
@@ -193,7 +193,7 @@ void Escrita_na_matriz(int mat[16][16], int N, int iden){
 
 inicio:		
 		aux = ALTO;
-		aux2 = ALTO;
+		aux2 = FLUTUANTE;
 		
 		srand(time(NULL));
 		x = rand() %16;
@@ -202,23 +202,25 @@ inicio:
 		y = rand() %16;
 		
 		srand(time(NULL));
-		vert_hor = rand() %1;							//zero:horizontal um:vertical
+		vert_hor = rand() %1;							//zero:horizontal//   //um:vertical//
 		
+	//	vert_hor = 1;
 		
 hor:	if(vert_hor == 0){								//horizontal
 			
 			srand(time(NULL));
-			pos_neg = rand() %1;						//zero: direta      um:esquerda 
+			pos_neg = rand() %1;						//zero: direta //     //um:esquerda// 
 				
 				
 direita:			if(pos_neg == 0){					//direita
 						for(i=y,j=0;j<=N;i++,j++){
-							if(mat[x][i] == 0 && i<=16){
+							if(mat[x][i] == 0 && i<=16 || aux2 == ALTO){
 								n_char ++;
 								
 								if(n_char == N){
-									j=0;
-									i=y;
+									j=-1;
+									i=y-1;
+									aux2 = ALTO;
 								}			
 								
 								if(n_char> N){
@@ -246,12 +248,13 @@ direita:			if(pos_neg == 0){					//direita
 					
 esquerda:			if(pos_neg == 1){					//esquerda
 						for(i=y,j=0;j<=N;i--,j++){
-							if(mat[x][i] == 0 && i>=0){
+							if(mat[x][i] == 0 && i>=0 || aux2 == ALTO){
 								n_char ++;
 												
 								if(n_char == N){
-									j=0;
-									i=y;
+									j=-1;
+									i=y-1;
+									aux2 = ALTO;
 								}			
 								
 								if(n_char> N){
@@ -286,12 +289,13 @@ vert:	if(vert_hor == 1){								//vertical
 				
 baixo:				if(pos_neg == 0){					//baixo
 						for(i=x,j=0;j<=N;i++,j++){
-							if(mat[i][y] == 0 && i<=16){
+							if(mat[i][y] == 0 && i<=16 || aux2 == ALTO){
 								n_char ++;
 								
 								if(n_char == N){
-									j=0;
-									i=x;
+									j=-1;
+									i=y-1;
+									aux2 = ALTO;
 								}			
 								
 								if(n_char> N){
@@ -320,12 +324,13 @@ baixo:				if(pos_neg == 0){					//baixo
 					
 cima:				if(pos_neg == 1){					//cima
 						for(i=x,j=0;j<=N;i--,j++){
-							if(mat[i][y] == 0 && i>=0){
+							if(mat[i][y] == 0 && i>=0 || aux2 == ALTO){
 								n_char ++;
 												
 								if(n_char == N){
-									j=0;
-									i=x;
+									j=-1;
+									i=y-1;
+									aux2 = ALTO;
 								}			
 								
 								if(n_char> N){
