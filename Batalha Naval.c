@@ -169,14 +169,14 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 			}
 
 		//porta avioes 
-	//	iden = 1;
-	//	Escrita_na_matriz(campo1,P,iden);			
+		iden = 1;
+		Escrita_na_matriz(campo1,P,iden);			
 		
 		
 		//couraçado
-		iden = 2;
-		for(i=0;i!=2;i++)	
-			Escrita_na_matriz(campo1,C,iden); 
+	//	iden = 2;
+	//	for(i=0;i!=2;i++)	
+	//		Escrita_na_matriz(campo1,C,iden); 
 			
 			
 		//torpedeiro
