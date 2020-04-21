@@ -7,17 +7,21 @@
 #define C 11		// Couraçado		qtd.2 	
 #define T 7			// Torpedeiros		qtd.3
 #define H 8			// Hidroavioes		qtd.4
+#define ALTO 1	
+#define BAIXO 0
+#define FLUTUANTE 3
 
 //====================================================================
 //		Lista de funções
 //====================================================================
 
-int 	Menu_de_Inicio(void);										//start do jogo para o usuario
-int		Comandos(char*comando);										//Le os comandos digitados		
-void 	Ajuda(void);												//Abre o menu de Ajuda
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);	//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador);				//Imprime o tabuleiro da batalha naval
-
+int 	Menu_de_Inicio(void);													//start do jogo para o usuario
+int		Comandos(char*comando);													//Le os comandos digitados		
+void 	Ajuda(void);															//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);				//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);			//Imprime o tabuleiro da batalha naval
+void	Escrita_na_matriz(int mat[16][16], int N, int iden);					//Aloca os barcos na matriz
+void 	Trans(int campo[16][16],char imgcampo[16][16]);							//Transforma os a matriz numerica em imagem
 
 //====================================================================
 //		Inicio
@@ -27,16 +31,17 @@ int main(void){
 	int aux;
 	int campo1[16][16],campo2[16][16];
 	char comando[30];
-
+	char imgcampo1[16][16],imgcampo2[16][16];
 
 
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
 
-	//Iniciar_matrizes(campo1,campo2);
+	Iniciar_matrizes(campo1,campo2);
+	Trans(campo1,imgcampo1);
 			
 	while(1){
-ret1:	Matriz_imagem(campo1,1);
+ret1:	Matriz_imagem(campo1,1,imgcampo1);
 		aux = Comandos(comando);
 		switch (aux){
 			case 0:						//Tiro			
@@ -155,37 +160,232 @@ int Comandos(char *comando){
 //====================================================================
 
 void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
-		unsigned int aux,i,j;	
+		unsigned int i,j,iden;	
 		
+		for(i=0;i!=16;i++)
+			for(j=0;j!=16;j++){
+				campo1[i][j] = 0;
+				campo2[i][j] = 0;
+			}
+
 		//porta avioes 
-		srand(time(NULL));
-		aux = rand() %16;
+		iden = 1;
+		Escrita_na_matriz(campo1,P,iden);			
+		
+		
 		
 		//couraçado
-		for(i=0;i!=2;i++){
-			srand(time(NULL));
-			aux = rand() %16;
-		}
-			
+		
 			
 	}	
+
+
+
+//====================================================================
+//		Escrevendo na Matriz 
+//====================================================================
+
+
+
+void Escrita_na_matriz(int mat[16][16], int N, int iden){
+	unsigned int aux,aux2,n_char,x,y,vert_hor,pos_neg,i,j;
+
+inicio:		
+		aux = ALTO;
+		aux2 = ALTO;
+		
+		srand(time(NULL));
+		x = rand() %16;
+		
+		srand(time(NULL));
+		y = rand() %16;
+		
+		srand(time(NULL));
+		vert_hor = rand() %1;							//zero:horizontal um:vertical
+		
+		
+hor:	if(vert_hor == 0){								//horizontal
+			
+			srand(time(NULL));
+			pos_neg = rand() %1;						//zero: direta      um:esquerda 
+				
+				
+direita:			if(pos_neg == 0){					//direita
+						for(i=y,j=0;j<=N;i++,j++){
+							if(mat[x][i] == 0 && i<=16){
+								n_char ++;
+								
+								if(n_char == N){
+									j=0;
+									i=y;
+								}			
+								
+								if(n_char> N){
+									mat[x][i] = iden; 
+								}		
+							}
+							
+							else{
+							
+								if(aux == BAIXO){
+									if (aux2 == BAIXO)
+										goto inicio;
+									aux = ALTO;
+									aux2 = BAIXO;								
+									vert_hor = 1;	
+									goto vert;
+								}	
+							
+								aux = BAIXO;
+								pos_neg = 1;
+								goto esquerda;
+							}
+						}	
+					}
+					
+esquerda:			if(pos_neg == 1){					//esquerda
+						for(i=y,j=0;j<=N;i--,j++){
+							if(mat[x][i] == 0 && i>=0){
+								n_char ++;
+												
+								if(n_char == N){
+									j=0;
+									i=y;
+								}			
+								
+								if(n_char> N){
+									mat[x][i] = iden;
+								}
+							}
+							else{
+							
+								if(aux == BAIXO){
+									if (aux2 == BAIXO)
+										goto inicio;
+									aux = ALTO;		
+									aux2 = BAIXO;						
+									vert_hor = 1;	
+									goto vert;
+								}
+							
+								aux = BAIXO;
+								pos_neg = 0;
+								goto direita; 
+							}
+						}	
+					}				
+		}
+		
+		
+vert:	if(vert_hor == 1){								//vertical
+			
+			srand(time(NULL));
+			pos_neg = rand() %1;						//zero: baixo      um:cima 
+				
+				
+baixo:				if(pos_neg == 0){					//baixo
+						for(i=x,j=0;j<=N;i++,j++){
+							if(mat[i][y] == 0 && i<=16){
+								n_char ++;
+								
+								if(n_char == N){
+									j=0;
+									i=x;
+								}			
+								
+								if(n_char> N){
+									mat[i][x] = iden; 
+								}		
+							}
+							
+							else{
+							
+								if(aux == BAIXO){
+									if (aux2 == BAIXO)
+										goto inicio;
+									aux = ALTO;
+									aux2 = BAIXO;								
+									vert_hor = 0;	
+									goto hor;
+								}
+								
+								aux = BAIXO;
+								pos_neg = 1;
+								goto cima; 
+							}
+						}	
+					}
+					
+					
+cima:				if(pos_neg == 1){					//cima
+						for(i=x,j=0;j<=N;i--,j++){
+							if(mat[i][y] == 0 && i>=0){
+								n_char ++;
+												
+								if(n_char == N){
+									j=0;
+									i=x;
+								}			
+								
+								if(n_char> N){
+									mat[i][y] = iden;
+								}
+							}
+							else{
+
+								if(aux == BAIXO){
+									if (aux2 == BAIXO)
+										goto inicio;
+									aux = ALTO;
+									aux2 = BAIXO;								
+									vert_hor = 0;	
+									goto hor;
+								}
+								
+								aux = BAIXO;
+								pos_neg = 0;
+								goto baixo;	 
+							}	
+						}
+					}				
+		}		
+	return;	
+}
+
+//====================================================================
+//		Transformando os dados da matriz em imagem 
+//====================================================================
+	
+void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq vai presiar do numero e da letra do tiro para revelar só aonde atirar 
+	int i,j;
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			
+			if(campo[i][j] == 0)
+				imgcampo[i][j] = 'X';
+			
+			if(campo[i][j] == 1)
+				imgcampo[i][j] = 'P';	
+		}
+	return;
+}
+
+
+
+
 
 //====================================================================
 //		Desenhando o campo de batalha 
 //====================================================================
 	
-void Matriz_imagem(int campo[16][16], int jogador){			// Adiciona a imagem da matriz 
+void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16]){			// Adiciona a imagem da matriz 
 	int i,j,aux=1;
 	int numero = 1;
 	char letra = 'A';
-	char imagem_campo[16][16];
 	
 	system("cls");
-	/*	
-	for(i=0;i!=16;i++)
-		for (j=0;i!=16;j++)
-	 		imagem_campo[i][j] = '0';
-	*/
+
 	
 	printf("Tela do Jogador #%d\n",jogador);
 	
@@ -210,11 +410,11 @@ void Matriz_imagem(int campo[16][16], int jogador){			// Adiciona a imagem da ma
 		
 		if(numero>10){
 			for (j=0;j!=16;j++)
-				printf(" |   |  "/*,imagem_campo[i][j]*/);		//add o %c dentro das chaves
+				printf(" | %c |  ",imgcampo[i][j]);		//add o %c dentro das chaves
 			
 		}else if(numero<=10){
 			for (j=0;j!=16;j++)
-				printf("  |   | "/*,imagem_campo[i][j]*/);		//add o %c dentro das chaves
+				printf("  | %c | ",imgcampo[i][j]);		//add o %c dentro das chaves
 		}
 		
 		printf("\n");
