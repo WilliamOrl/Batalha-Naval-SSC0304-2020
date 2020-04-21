@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define P 11		// Porta-avioes		qtd.1
-#define C 10		// Couraçado		qtd.2 	
-#define T 7			// Torpedeiros		qtd.3
-#define H 8			// Hidroavioes		qtd.4
+#define P 11		// Porta-avioes		qtd.1		identificação 1
+#define C 10		// Couraçado		qtd.2 		identificação 2
+#define T 7			// Torpedeiros		qtd.3		identificação 3
+#define H 8			// Hidroavioes		qtd.4		identificação 4
 #define ALTO 1	
 #define BAIXO 0
 #define FLUTUANTE 3
@@ -19,7 +19,7 @@ int 	Menu_de_Inicio(void);													//start do jogo para o usuario
 int		Comandos(char*comando);													//Le os comandos digitados		
 void 	Ajuda(void);															//Abre o menu de Ajuda
 void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);				//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);			//Imprime o tabuleiro da batalha naval
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);	//Imprime o tabuleiro da batalha naval
 void	Escrita_na_matriz(int mat[16][16], int N, int iden);					//Aloca os barcos na matriz
 void 	Trans(int campo[16][16],char imgcampo[16][16]);							//Transforma os a matriz numerica em imagem
 
@@ -131,7 +131,7 @@ int Comandos(char *comando){
 		char comandoint[30];
 		
 		printf("\nInsira o Comando: ");
-		scanf("%s",&comandoint);
+		scanf("%s",&comandoint[30]);
 		
 		if(comandoint[0] == 'p' && comandoint[1] == 'o' && comandoint[2] == 'w')
 			return 0;
@@ -169,15 +169,20 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 			}
 
 		//porta avioes 
-		iden = 1;
-		Escrita_na_matriz(campo1,P,iden);			
+	//	iden = 1;
+	//	Escrita_na_matriz(campo1,P,iden);			
 		
 		
 		//couraçado
-	//	iden = 2;
-	//	for(i=0;i!=2;i++)	
-	//		Escrita_na_matriz(campo1,C,iden); 
+		iden = 2;
+		for(i=0;i!=2;i++)	
+			Escrita_na_matriz(campo1,C,iden); 
 			
+			
+		//torpedeiro
+	//	iden = 3;
+	//	for(i=0;i!=3;i++)	
+	//		Escrita_na_matriz(campo1,T,iden); 	
 	}	
 
 
@@ -202,28 +207,29 @@ inicio:
 		y = rand() %16;
 		
 		srand(time(NULL));
-		vert_hor = rand() %1;							//zero:horizontal//   //um:vertical//
+		vert_hor = rand() %2;							//zero:horizontal//   //um:vertical//
 		
-	//	vert_hor = 1;
-		
+				
 hor:	if(vert_hor == 0){								//horizontal
 			
 			srand(time(NULL));
-			pos_neg = rand() %1;						//zero: direta //     //um:esquerda// 
+			pos_neg = rand() %2;						//zero: direta //     //um:esquerda// 
 				
 				
 direita:			if(pos_neg == 0){					//direita
-						for(i=y,j=0;j<=N;i++,j++){
-							if(mat[x][i] == 0 && i<=16 || aux2 == ALTO){
-								n_char ++;
+						for(i=y,j=0;j<N;i++,j++){
+							if((mat[x][i] == 0 && i<=16) || aux2 == ALTO){
+								if(aux2 != ALTO)
+									n_char ++;
 								
-								if(n_char == N){
-									j=-1;
+								if(n_char == N-1){		//Reiniciando o for
+									j=0;
 									i=y-1;
+									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char> N){
+								if(n_char>= N){
 									mat[x][i] = iden; 
 								}		
 							}
@@ -231,7 +237,7 @@ direita:			if(pos_neg == 0){					//direita
 							else{
 							
 								if(aux == BAIXO){
-									if (aux2 == BAIXO)
+									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
 									aux = ALTO;
 									aux2 = BAIXO;								
@@ -247,24 +253,26 @@ direita:			if(pos_neg == 0){					//direita
 					}
 					
 esquerda:			if(pos_neg == 1){					//esquerda
-						for(i=y,j=0;j<=N;i--,j++){
-							if(mat[x][i] == 0 && i>=0 || aux2 == ALTO){
-								n_char ++;
+						for(i=y,j=0;j<N;i--,j++){
+							if((mat[x][i] == 0 && i>=0) || aux2 == ALTO){
+								if(aux2 != ALTO)
+									n_char ++;
 												
-								if(n_char == N){
-									j=-1;
+								if(n_char == N-1){
+									j=0;
 									i=y-1;
+									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char> N){
+								if(n_char>= N){
 									mat[x][i] = iden;
 								}
 							}
 							else{
 							
 								if(aux == BAIXO){
-									if (aux2 == BAIXO)
+									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
 									aux = ALTO;		
 									aux2 = BAIXO;						
@@ -284,21 +292,23 @@ esquerda:			if(pos_neg == 1){					//esquerda
 vert:	if(vert_hor == 1){								//vertical
 			
 			srand(time(NULL));
-			pos_neg = rand() %1;						//zero: baixo      um:cima 
+			pos_neg = rand() %2;						//zero: baixo      um:cima 
 				
 				
 baixo:				if(pos_neg == 0){					//baixo
-						for(i=x,j=0;j<=N;i++,j++){
-							if(mat[i][y] == 0 && i<=16 || aux2 == ALTO){
-								n_char ++;
+						for(i=x,j=0;j<N;i++,j++){
+							if((mat[i][y] == 0 && i<=16) || aux2 == ALTO){
+								if(aux2 != ALTO)
+									n_char ++;
 								
-								if(n_char == N){
-									j=-1;
+								if(n_char == N-1){
+									j=0;
 									i=y-1;
+									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char> N){
+								if(n_char >= N){
 									mat[i][x] = iden; 
 								}		
 							}
@@ -306,7 +316,7 @@ baixo:				if(pos_neg == 0){					//baixo
 							else{
 							
 								if(aux == BAIXO){
-									if (aux2 == BAIXO)
+									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
 									aux = ALTO;
 									aux2 = BAIXO;								
@@ -323,24 +333,26 @@ baixo:				if(pos_neg == 0){					//baixo
 					
 					
 cima:				if(pos_neg == 1){					//cima
-						for(i=x,j=0;j<=N;i--,j++){
-							if(mat[i][y] == 0 && i>=0 || aux2 == ALTO){
-								n_char ++;
+						for(i=x,j=0;j<N;i--,j++){
+							if((mat[i][y] == 0 && i>=0) || aux2 == ALTO){
+								if(aux2 != ALTO)
+									n_char ++;
 												
-								if(n_char == N){
-									j=-1;
+								if(n_char == N-1){
+									j=0;
 									i=y-1;
+									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char> N){
+								if(n_char >= N){
 									mat[i][y] = iden;
 								}
 							}
 							else{
 
 								if(aux == BAIXO){
-									if (aux2 == BAIXO)
+									if (aux2 == BAIXO && aux == BAIXO)
 										goto inicio;
 									aux = ALTO;
 									aux2 = BAIXO;								
@@ -368,14 +380,17 @@ void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
 			
-			if(campo[i][j] == 0)
-				imgcampo[i][j] = 'X';
+			if(campo[i][j] == 0)								// Desenha tiro n'agua	
+				imgcampo[i][j] = ' ';
 			
 			if(campo[i][j] == 1)
-				imgcampo[i][j] = 'P';
+				imgcampo[i][j] = 'P';							// Desenha porta avião
 			
-			if(campo[i][j] == 2)
-				imgcampo[i][j] = 'C';	
+			if(campo[i][j] == 2)								
+				imgcampo[i][j] = 'C';							// Desenha couraçado
+				
+			if(campo[i][j] == 3)								
+				imgcampo[i][j] = 'T';							// Desenha torperdeiro	
 		}
 	return;
 }
