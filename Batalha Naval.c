@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define P 11		// Porta-avioes		qtd.1
-#define C 11		// Couraçado		qtd.2 	
+#define C 10		// Couraçado		qtd.2 	
 #define T 7			// Torpedeiros		qtd.3
 #define H 8			// Hidroavioes		qtd.4
 #define ALTO 1	
@@ -76,7 +76,7 @@ int	Menu_de_Inicio(void){
 inicio:	
 	system("cls");
 	printf("Bem Vindo a Batalha Naval!\n");		
-	printf("Precione:\n1-Iniciar \n2-Ajuda\n3-Sair\nSelecione:");
+	printf("Precione:\n1-Iniciar \n2-Ajuda\n3-Sair\nSelecione: ");
 	scanf("%d",&aux);
 	
 	switch (aux){
@@ -173,9 +173,10 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		Escrita_na_matriz(campo1,P,iden);			
 		
 		
-		
 		//couraçado
-		
+		iden = 2;
+		for(i=0;i!=2;i++)	
+			Escrita_na_matriz(campo1,C,iden); 
 			
 	}	
 
@@ -366,7 +367,10 @@ void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq
 				imgcampo[i][j] = 'X';
 			
 			if(campo[i][j] == 1)
-				imgcampo[i][j] = 'P';	
+				imgcampo[i][j] = 'P';
+			
+			if(campo[i][j] == 2)
+				imgcampo[i][j] = 'C';	
 		}
 	return;
 }
