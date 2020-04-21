@@ -174,9 +174,9 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		
 		
 		//couraçado
-	//	iden = 2;
+		iden = 2;
 	//	for(i=0;i!=2;i++)	
-	//		Escrita_na_matriz(campo1,C,iden); 
+			Escrita_na_matriz(campo1,C,iden); 
 			
 			
 		//torpedeiro
@@ -258,7 +258,7 @@ esquerda:			if(pos_neg == 1){					//esquerda
 								if(aux2 != ALTO)
 									n_char ++;
 												
-								if(n_char == N-1){
+								if(n_char == N-1){		//Reiniciando o for
 									j=0;
 									i=y-1;
 									n_char ++;
@@ -301,7 +301,7 @@ baixo:				if(pos_neg == 0){					//baixo
 								if(aux2 != ALTO)
 									n_char ++;
 								
-								if(n_char == N-1){
+								if(n_char == N-1){		//Reiniciando o for
 									j=0;
 									i=y-1;
 									n_char ++;
@@ -338,7 +338,7 @@ cima:				if(pos_neg == 1){					//cima
 								if(aux2 != ALTO)
 									n_char ++;
 												
-								if(n_char == N-1){
+								if(n_char == N-1){		//Reiniciando o for
 									j=0;
 									i=y-1;
 									n_char ++;
@@ -434,11 +434,11 @@ void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16]){			// A
 		
 		if(numero>10){
 			for (j=0;j!=16;j++)
-				printf(" | %c |  ",imgcampo[i][j]);		//add o %c dentro das chaves
+				printf(" | %c |  ",imgcampo[i][j]);		
 			
 		}else if(numero<=10){
 			for (j=0;j!=16;j++)
-				printf("  | %c | ",imgcampo[i][j]);		//add o %c dentro das chaves
+				printf("  | %c | ",imgcampo[i][j]);		
 		}
 		
 		printf("\n");
