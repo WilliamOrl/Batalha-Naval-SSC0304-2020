@@ -174,20 +174,20 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		
 		
 		//couraçado
-		iden = 2;
-		for(i=0;i!=2;i++)	
-			Escrita_na_matriz(campo1,C,iden); 
+//		iden = 2;
+//		for(i=0;i!=2;i++)	
+//			Escrita_na_matriz(campo1,C,iden); 
 			
 			
 		//torpedeiro
-		iden = 3;
-		for(i=0;i!=3;i++)	
-			Escrita_na_matriz(campo1,T,iden); 
+//		iden = 3;
+//		for(i=0;i!=3;i++)	
+//			Escrita_na_matriz(campo1,T,iden); 
 			
 		//hidroaviao
-		iden = 4;
-		for(i=0;i!=4;i++)	
-			Escrita_na_matriz(campo1,H,iden);		
+//		iden = 4;
+//		for(i=0;i!=4;i++)	
+//			Escrita_na_matriz(campo1,H,iden);		
 	}	
 
 
