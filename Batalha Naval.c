@@ -62,8 +62,8 @@ ret1:	Matriz_imagem(campo1,1,imgcampo1);
 				
 				break;
 		}
-		
 	}
+	return 0;
 }
 
 //====================================================================
@@ -174,20 +174,20 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		
 		
 		//couraçado
-//		iden = 2;
-//		for(i=0;i!=2;i++)	
-//			Escrita_na_matriz(campo1,C,iden); 
+		iden = 2;
+		for(i=0;i!=2;i++)	
+			Escrita_na_matriz(campo1,C,iden); 
 			
 			
 		//torpedeiro
-//		iden = 3;
-//		for(i=0;i!=3;i++)	
-//			Escrita_na_matriz(campo1,T,iden); 
+		iden = 3;
+		for(i=0;i!=3;i++)	
+			Escrita_na_matriz(campo1,T,iden); 
 			
 		//hidroaviao
-//		iden = 4;
-//		for(i=0;i!=4;i++)	
-//			Escrita_na_matriz(campo1,H,iden);		
+		iden = 4;
+		for(i=0;i!=4;i++)	
+			Escrita_na_matriz(campo1,H,iden);		
 	}	
 
 
@@ -199,7 +199,8 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 
 
 void Escrita_na_matriz(int mat[16][16], int N, int iden){
-	unsigned int aux,aux2,n_char,x,y,vert_hor,pos_neg,i,j;
+	unsigned int x,y,vert_hor,pos_neg;
+	int i,j,aux,aux2,n_char;
 
 inicio:		
 		n_char=0;
@@ -224,7 +225,7 @@ hor:	if(vert_hor == 0){								//horizontal
 				
 direita:			if(pos_neg == 0){					//direita
 						for(i=y,j=0;j<N;i++,j++){
-							if((mat[x][i] == 0 && i<=16) || aux2 == ALTO){
+							if((mat[x][i] == 0 && i<16) || aux2 == ALTO){
 								if(aux2 != ALTO)
 									n_char ++;
 								
@@ -305,7 +306,7 @@ vert:	if(vert_hor == 1){								//vertical
 				
 baixo:				if(pos_neg == 0){					//baixo
 						for(i=x,j=0;j<N;i++,j++){
-							if((mat[i][y] == 0 && i<=16) || aux2 == ALTO){
+							if((mat[i][y] == 0 && i<16) || aux2 == ALTO){
 								if(aux2 != ALTO)
 									n_char ++;
 								
@@ -377,7 +378,7 @@ cima:				if(pos_neg == 1){					//cima
 						}
 					}				
 		}		
-	return;	
+//	return;	
 }
 
 //====================================================================
