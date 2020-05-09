@@ -160,7 +160,7 @@ int Comandos(char *comando){
 //====================================================================
 
 void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
-		unsigned int i,j,iden;	
+		int i,j,iden;	
 		
 		for(i=0;i!=16;i++)
 			for(j=0;j!=16;j++){
@@ -225,13 +225,13 @@ hor:	if(vert_hor == 0){								//horizontal
 				
 direita:			if(pos_neg == 0){					//direita
 						for(i=y,j=0;j<N;i++,j++){
-							if((mat[x][i] == 0 && i<16) || (aux2 == ALTO && mat[x][i] == 0) ){
+							if((mat[x][i] == 0 && i<16) || (/*aux2 == ALTO &&*/ mat[x][i] == 0 && i<16) ){
 								if(aux2 != ALTO)
 									n_char ++;
 								
 								if(n_char == N-1){		//Reiniciando o for
 									j=0;
-									i=y-1;
+									i=y;
 									n_char ++;
 									aux2 = ALTO;
 								}			
@@ -262,13 +262,13 @@ direita:			if(pos_neg == 0){					//direita
 					
 esquerda:			if(pos_neg == 1){					//esquerda
 						for(i=y,j=0;j<N;i--,j++){
-							if((mat[x][i] == 0 && i>=0) || (aux2 == ALTO && mat[x][i] == 0)){
+							if((mat[x][i] == 0 && i>=0) || (/*aux2 == ALTO&&*/  mat[x][i] == 0 && i>=0)){
 								if(aux2 != ALTO)
 									n_char ++;
 												
 								if(n_char == N-1){		//Reiniciando o for
 									j=0;
-									i=y-1;
+									i=y;
 									n_char ++;
 									aux2 = ALTO;
 								}			
@@ -306,19 +306,19 @@ vert:	if(vert_hor == 1){								//vertical
 				
 baixo:				if(pos_neg == 0){					//baixo
 						for(i=x,j=0;j<N;i++,j++){
-							if((mat[i][y] == 0 && i<16) || (aux2 == ALTO && mat[x][i] == 0)){
+							if((mat[i][y] == 0 && i<16) || (/*aux2 == ALTO &&*/ mat[i][y] == 0 && i<16)){
 								if(aux2 != ALTO)
 									n_char ++;
 								
 								if(n_char == N-1){		//Reiniciando o for
 									j=0;
-									i=y-1;
+									i=x;
 									n_char ++;
 									aux2 = ALTO;
 								}			
 								
 								if(n_char >= N){
-									mat[i][x] = iden; 
+									mat[i][y] = iden; 
 								}		
 							}
 							
@@ -344,13 +344,13 @@ baixo:				if(pos_neg == 0){					//baixo
 					
 cima:				if(pos_neg == 1){					//cima
 						for(i=x,j=0;j<N;i--,j++){
-							if((mat[i][y] == 0 && i>=0) || (aux2 == ALTO && mat[x][i] == 0)){
+							if((mat[i][y] == 0 && i>=0) || (/*aux2 == ALTO &&*/ mat[i][y] == 0 && i>=0)){
 								if(aux2 != ALTO)
 									n_char ++;
 												
 								if(n_char == N-1){		//Reiniciando o for
 									j=0;
-									i=y-1;
+									i=x;
 									n_char ++;
 									aux2 = ALTO;
 								}			
