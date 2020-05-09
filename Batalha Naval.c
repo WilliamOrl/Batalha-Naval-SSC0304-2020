@@ -225,7 +225,7 @@ hor:	if(vert_hor == 0){								//horizontal
 				
 direita:			if(pos_neg == 0){					//direita
 						for(i=y,j=0;j<N;i++,j++){
-							if((mat[x][i] == 0 && i<16) || aux2 == ALTO){
+							if((mat[x][i] == 0 && i<16) || (aux2 == ALTO && mat[x][i] == 0) ){
 								if(aux2 != ALTO)
 									n_char ++;
 								
@@ -262,7 +262,7 @@ direita:			if(pos_neg == 0){					//direita
 					
 esquerda:			if(pos_neg == 1){					//esquerda
 						for(i=y,j=0;j<N;i--,j++){
-							if((mat[x][i] == 0 && i>=0) || aux2 == ALTO){
+							if((mat[x][i] == 0 && i>=0) || (aux2 == ALTO && mat[x][i] == 0)){
 								if(aux2 != ALTO)
 									n_char ++;
 												
@@ -306,7 +306,7 @@ vert:	if(vert_hor == 1){								//vertical
 				
 baixo:				if(pos_neg == 0){					//baixo
 						for(i=x,j=0;j<N;i++,j++){
-							if((mat[i][y] == 0 && i<16) || aux2 == ALTO){
+							if((mat[i][y] == 0 && i<16) || (aux2 == ALTO && mat[x][i] == 0)){
 								if(aux2 != ALTO)
 									n_char ++;
 								
@@ -344,7 +344,7 @@ baixo:				if(pos_neg == 0){					//baixo
 					
 cima:				if(pos_neg == 1){					//cima
 						for(i=x,j=0;j<N;i--,j++){
-							if((mat[i][y] == 0 && i>=0) || aux2 == ALTO){
+							if((mat[i][y] == 0 && i>=0) || (aux2 == ALTO && mat[x][i] == 0)){
 								if(aux2 != ALTO)
 									n_char ++;
 												
