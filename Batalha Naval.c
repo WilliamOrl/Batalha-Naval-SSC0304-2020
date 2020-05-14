@@ -37,6 +37,7 @@ int main(void){
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
 
+rest:
 	Iniciar_matrizes(campo1,campo2);
 	Trans(campo1,imgcampo1);
 			
@@ -48,7 +49,8 @@ ret1:	Matriz_imagem(campo1,1,imgcampo1);
 				
 				break;
 			case 1:						//Reset
-				
+				printf("Reorganizando os barcos...\n");
+				goto rest;
 				break;
 			case 2:						//Sair
 				aux = 1;
@@ -82,7 +84,7 @@ inicio:
 	switch (aux){
 		case 1:
 			system("cls");
-			printf("Peprarando a Batalha...\n");
+			printf("Preparando a Batalha...\n");
 			return 0;		
 		break;
 		
@@ -131,10 +133,17 @@ void Ajuda(void){
 int Comandos(char *comando){
 	while(1){
 		char comandoint[30];
+		int i;
 		
+		for(i=0;i!=30;i++){
+			comando[i] = ' ';  
+		}
+		
+		setbuf(stdin, NULL);
 		
 		printf("\nInsira o Comando: ");
 		scanf("%[^\n]s",&comandoint);
+		
 		setbuf(stdin, NULL);
 		
 		
@@ -176,23 +185,27 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		//porta avioes 
 		iden = 1;
 		Escrita_na_matriz(campo1,P,iden);			
-		
+		printf("Porta-avioes zarpados...\n");
 		
 		//couraçado
 		iden = 2;
 		for(i=0;i!=2;i++)	
 			Escrita_na_matriz(campo1,C,iden); 
-			
+		printf("Os Couracados estao em posicao...\n");	
 			
 		//torpedeiro
 		iden = 3;
 		for(i=0;i!=3;i++)	
 			Escrita_na_matriz(campo1,T,iden); 
+		printf("Confirmo a visao de Torpedeiros...\n");	
 			
 		//hidroaviao
 		iden = 4;
 		for(i=0;i!=4;i++)	
-			Escrita_na_matriz(campo1,H,iden);		
+			Escrita_na_matriz(campo1,H,iden);
+		printf("Os hidroavioes ja estao nos ceus...\n");
+		
+		sleep (2);
 	}	
 
 
