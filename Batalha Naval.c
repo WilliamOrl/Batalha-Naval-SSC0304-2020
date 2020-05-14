@@ -16,7 +16,7 @@
 //====================================================================
 
 int 	Menu_de_Inicio(void);													//start do jogo para o usuario
-int		Comandos(char*comando);													//Le os comandos digitados		
+int		Comandos(char*comando, int* lc);										//Le os comandos digitados		
 void 	Ajuda(void);															//Abre o menu de Ajuda
 void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);				//Randomiza os barcos 						
 void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);	//Imprime o tabuleiro da batalha naval
@@ -32,7 +32,7 @@ int main(void){
 	int campo1[16][16],campo2[16][16];
 	char comando[30];
 	char imgcampo1[16][16],imgcampo2[16][16];
-
+	int parametros[2];
 
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
@@ -43,12 +43,13 @@ rest:
 			
 	while(1){
 ret1:	Matriz_imagem(campo1,1,imgcampo1);
-		aux = Comandos(comando);
+		aux = Comandos(comando, parametros);
 		switch (aux){
 			case 0:						//Tiro			
-				
+				printf("linha = %d\n coluna = %d\n",parametros[0],parametros[1]);
 				break;
 			case 1:						//Reset
+				system("cls");
 				printf("Reorganizando os barcos...\n");
 				goto rest;
 				break;
@@ -130,14 +131,19 @@ void Ajuda(void){
 //		Menu de Comandos
 //====================================================================
 
-int Comandos(char *comando){
+int Comandos(char*comando, int* lc){
 	while(1){
+		
 		char comandoint[30];
 		int i;
+		int aux;
 		
 		for(i=0;i!=30;i++){
-			comando[i] = ' ';  
+			comandoint[i] = ' ';  
 		}
+	
+		lc[0] = 0;
+		lc[1] = 0;
 		
 		setbuf(stdin, NULL);
 		
@@ -147,9 +153,31 @@ int Comandos(char *comando){
 		setbuf(stdin, NULL);
 		
 		
-		if(comandoint[0] == 'p' && comandoint[1] == 'o' && comandoint[2] == 'w')
+		if(comandoint[0] == 'P' && comandoint[1] == 'o' && comandoint[2] == 'w'){
+			for(i=4;i!=30;i++){
+				if(comandoint[i]>=48 && comandoint[i]<=57){					//48 e 57 são os estremos de 0 a 9 na tabala ASCII
+					
+					aux = comandoint[i] - 48;
+					lc[0] = lc[0]*10;	
+					lc[0] = lc[0] + aux;
+					printf("lc[0] = %d\n",lc[0]);
+					
+				}
+				else if(comandoint[i]>=65 && comandoint[i]<=80){				//65 e 80 são os estremos de A a P na tabala ASCII
+					aux = comandoint[i] - 65;
+					lc[1] = aux;
+					printf("lc[1] = %d\n",lc[1]);
+				}
+				else if(comandoint[i] == ' ')	
+				i++;
+			
+			}
+			
+			if(lc[0]<=0 && !lc[0]>=15 && lc[1]<=0 && lc[1]>=15)
+				goto erro;
+			
 			return 0;
-		
+		}
 		else if(comandoint[0] == 'R' && comandoint[1] == 'e' && comandoint[2] == 's' && comandoint[3] == 'e' && comandoint[4] == 't')
 			return	1;
 		
@@ -163,9 +191,7 @@ int Comandos(char *comando){
 			return	4;
 					
 		else
-			printf("Digite novamente\n");
-		//if(comando == 'Reset')
-		//return;
+erro:		printf("Digite novamente\n");
 	}
 }
 
