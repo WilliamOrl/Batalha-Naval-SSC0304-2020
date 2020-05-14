@@ -229,7 +229,7 @@ direita:			if(pos_neg == 0){					//direita
 								if(aux2 != ALTO)
 									n_char ++;
 								
-								if(n_char == N-1){		//Reiniciando o for
+								if(n_char == N){		//Reiniciando o for
 									j=0;
 									i=y;
 									n_char ++;
@@ -266,7 +266,7 @@ esquerda:			if(pos_neg == 1){					//esquerda
 								if(aux2 != ALTO)
 									n_char ++;
 												
-								if(n_char == N-1){		//Reiniciando o for
+								if(n_char == N){		//Reiniciando o for
 									j=0;
 									i=y;
 									n_char ++;
@@ -310,7 +310,7 @@ baixo:				if(pos_neg == 0){					//baixo
 								if(aux2 != ALTO)
 									n_char ++;
 								
-								if(n_char == N-1){		//Reiniciando o for
+								if(n_char == N){		//Reiniciando o for
 									j=0;
 									i=x;
 									n_char ++;
@@ -348,7 +348,7 @@ cima:				if(pos_neg == 1){					//cima
 								if(aux2 != ALTO)
 									n_char ++;
 												
-								if(n_char == N-1){		//Reiniciando o for
+								if(n_char == N){		//Reiniciando o for
 									j=0;
 									i=x;
 									n_char ++;
