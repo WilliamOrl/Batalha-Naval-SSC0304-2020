@@ -81,6 +81,8 @@ inicio:
 	
 	switch (aux){
 		case 1:
+			system("cls");
+			printf("Peprarando a Batalha...\n");
 			return 0;		
 		break;
 		
@@ -130,8 +132,11 @@ int Comandos(char *comando){
 	while(1){
 		char comandoint[30];
 		
+		
 		printf("\nInsira o Comando: ");
-		scanf("%s",&comandoint[30]);
+		scanf("%[^\n]s",&comandoint);
+		setbuf(stdin, NULL);
+		
 		
 		if(comandoint[0] == 'p' && comandoint[1] == 'o' && comandoint[2] == 'w')
 			return 0;
