@@ -3,36 +3,59 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define P 11		// Porta-avioes		qtd.1		identificação 1
-#define C 10		// Couraçado		qtd.2 		identificação 2
-#define T 7			// Torpedeiros		qtd.3		identificação 3
-#define H 8			// Hidroavioes		qtd.4		identificação 4
+#define P 11						// Porta-avioes		qtd.1		identificação 1
+#define C 10						// Couraçado		qtd.2 		identificação 2
+#define T 7							// Torpedeiros		qtd.3		identificação 3
+#define H 8							// Hidroavioes		qtd.4		identificação 4					 
 #define ALTO 1	
 #define BAIXO 0
 #define FLUTUANTE 3
+//====================================================================
+//		Struct das quantidades de peças 
+//====================================================================
+
+typedef struct{
+	int pa;
+	int co;
+	int to;
+	int hi;
+}Barco;
+
+
 
 //====================================================================
 //		Lista de funções
 //====================================================================
 
-int 	Menu_de_Inicio(void);													//start do jogo para o usuario
-int		Comandos(char*comando, int* lc);										//Le os comandos digitados		
-void 	Ajuda(void);															//Abre o menu de Ajuda
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);				//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);	//Imprime o tabuleiro da batalha naval
-void	Escrita_na_matriz(int mat[16][16], int N, int iden);					//Aloca os barcos na matriz
-void 	Trans(int campo[16][16],char imgcampo[16][16]);							//Transforma os a matriz numerica em imagem
-int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]);
+int 	Menu_de_Inicio(void);																			//start do jogo para o usuario
+int		Comandos(char*comando, int* lc);																//Le os comandos digitados		
+void 	Ajuda(void);																					//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);										//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);	//Imprime o tabuleiro da batalha naval
+void	Escrita_na_matriz(int mat[16][16], int N, int iden);											//Aloca os barcos na matriz
+void 	Trans(int campo[16][16],char imgcampo[16][16]);													//Transforma os a matriz numerica em imagem
+int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);
+
+
 //====================================================================
 //		Inicio
 //====================================================================
 
 int main(void){
+	
 	int aux,i,j;
 	int campo1[16][16],campo2[16][16];
 	char comando[30];
 	char imgcampo1[16][16],imgcampo2[16][16];
 	int parametros[2];
+	int pontos1,pontos2;
+	double time;
+	clock_t start_t, end_t;
+
+
+
+	start_t = clock();
+	
 fim:
 	for(i=0;i!=16;i++)
 			for(j=0;j!=16;j++){
@@ -40,19 +63,40 @@ fim:
 				imgcampo2[i][j] = ' ';
 			}
 
+
+
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
+
+
 
 rest:
 	Iniciar_matrizes(campo1,campo2);
 	Trans(campo1,imgcampo1);
-			
+	
+	int pt = 84;
+	Barco qa;						//Quantidade de peças de barcos							
+	
+	qa.pa = 11;
+	qa.co = 20;
+	qa.to = 21;
+	qa.hi = 32;
+		
+		
+		
+		
 	while(1){
-ret1:	Matriz_imagem(campo1,1,imgcampo1);
+ret1:	
+		end_t = clock(); 
+		time = end_t - start_t;
+		time = time/CLOCKS_PER_SEC;
+		
+		Matriz_imagem(campo1,1,imgcampo1,pontos1,time);
 		aux = Comandos(comando, parametros);
+		
 		switch (aux){
 			case 0:						//Tiro	
-				aux = Tiro(parametros,campo1,imgcampo1);
+				aux = Tiro(parametros,campo1,imgcampo1,&pontos1,&qa,&pt);
 				
 				if(aux == 1)
 					goto ret1;	 
@@ -60,7 +104,8 @@ ret1:	Matriz_imagem(campo1,1,imgcampo1);
 				if(aux == 2){
 					system("cls");
 					printf("Parabens Jogador 1!!");
-					goto fim;
+					sleep(2);
+					goto rest;
 				}
 				break;
 				
@@ -225,10 +270,12 @@ erro:		printf("Digite novamente\n");
 //		Comando Pow - Tiro
 //====================================================================
 
-int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]){
+int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Barco* qa, int* pt){
 	int linha,coluna;
 	int aux;
 	int i,j;
+	int N=256;		// Numero total de casas do jogo
+	int erro = 0;
 	
 	linha = dados[1];
 	coluna = dados[0];
@@ -241,31 +288,50 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]){
 		case 0: 
 			printf("Tiro n'agua\n");
 			imgcampo[coluna][linha] = 'X';			// Desenha tiro n'agua
-			campo[coluna][linha] = 5;				
+			campo[coluna][linha] = 5;
+			if(*pontos != 0){
+				erro = (((N - *pt)*5)/N);
+				printf("erro %d",erro);
+				*pontos = *pontos - erro;
+			}
+			else 
+				*pontos = *pontos - erro;
 		break;
 		
 		case 1:
 			printf("Tiro no porta-avioes\n");
-			imgcampo[coluna][linha] = 'x';			// Desenha porta avião
-			campo[coluna][linha] = 5;			
+			imgcampo[coluna][linha] = 'P';			// Desenha porta avião
+			campo[coluna][linha] = 5;		
+			*pontos = *pontos + (qa->pa*11*1000/N);
+			qa->pa--;
+			*pt--;	
 		break; 	
 		
 		case 2:
 			printf("Tiro no Couracado\n");
-			imgcampo[coluna][linha] = 'x';			// Desenha couraçado
+			imgcampo[coluna][linha] = 'C';			// Desenha couraçado
 			campo[coluna][linha] = 5;
+			*pontos = *pontos + (qa->co*10*1000/N);
+			qa->co--;
+			*pt--;
 		break;
 		
 		case 3:
 			printf("Tiro no Torpedeiro\n");
-			imgcampo[coluna][linha] = 'x';			// Desenha torperdeiro		
+			imgcampo[coluna][linha] = 'T';			// Desenha torperdeiro		
 			campo[coluna][linha] = 5;
+			*pontos = *pontos + (qa->to*7*1000/N);
+			qa->to--;
+			*pt--;
 		break;
 		
 		case 4:
 			printf("Tiro no hidroaviao\n");
-			imgcampo[coluna][linha] = 'x';			// Desenha hidroaviao1
+			imgcampo[coluna][linha] = 'H';			// Desenha hidroaviao1
 			campo[coluna][linha] = 5;
+			*pontos = *pontos + (qa->hi*8*1000/N);
+			qa->hi--;
+			*pt--;
 		break;
 		
 		case 5:
@@ -281,7 +347,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]){
 	for(i=0;i!=16;i++)
 			for(j=0;j!=16;j++){
 				aux = campo[i][j];
-				if(aux == 1 || aux == 2 || aux == 3 || aux == 4)
+				if(aux == 1 || aux == 2 || aux == 3 || aux == 4)		//Verigeica se ainda existe algum barco de pé
 					return 0;
 			}
 			
@@ -556,7 +622,7 @@ void Trans(int campo[16][16],char imgcampo[16][16]){		// Vai ter q mudar dps pq 
 //		Desenhando o campo de batalha 
 //====================================================================
 	
-void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16]){			// Adiciona a imagem da matriz 
+void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16], int pontos, double tempo){			// Adiciona a imagem da matriz 
 	int i,j,aux=1;
 	int numero = 1;
 	char letra = 'A';
@@ -564,7 +630,7 @@ void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16]){			// A
 	system("cls");
 
 	
-	printf("Tela do Jogador #%d\n",jogador);
+	printf("Tela do Jogador #%d  Pontos:%d  Time:%f\n",jogador,pontos,tempo);
 	
 	for(i=0;i!=16;i++){
 		for (j=0;j!=16;j++)
