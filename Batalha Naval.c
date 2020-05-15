@@ -22,17 +22,23 @@ void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);				//Randomiza o
 void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16]);	//Imprime o tabuleiro da batalha naval
 void	Escrita_na_matriz(int mat[16][16], int N, int iden);					//Aloca os barcos na matriz
 void 	Trans(int campo[16][16],char imgcampo[16][16]);							//Transforma os a matriz numerica em imagem
-
+int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]);
 //====================================================================
 //		Inicio
 //====================================================================
 
 int main(void){
-	int aux;
+	int aux,i,j;
 	int campo1[16][16],campo2[16][16];
 	char comando[30];
 	char imgcampo1[16][16],imgcampo2[16][16];
 	int parametros[2];
+fim:
+	for(i=0;i!=16;i++)
+			for(j=0;j!=16;j++){
+				imgcampo1[i][j] = ' ';
+				imgcampo2[i][j] = ' ';
+			}
 
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
@@ -45,22 +51,35 @@ rest:
 ret1:	Matriz_imagem(campo1,1,imgcampo1);
 		aux = Comandos(comando, parametros);
 		switch (aux){
-			case 0:						//Tiro			
-				printf("linha = %d\n coluna = %d\n",parametros[0],parametros[1]);
+			case 0:						//Tiro	
+				aux = Tiro(parametros,campo1,imgcampo1);
+				
+				if(aux == 1)
+					goto ret1;	 
+				
+				if(aux == 2){
+					system("cls");
+					printf("Parabens Jogador 1!!");
+					goto fim;
+				}
 				break;
+				
 			case 1:						//Reset
 				system("cls");
 				printf("Reorganizando os barcos...\n");
 				goto rest;
 				break;
+				
 			case 2:						//Sair
 				aux = 1;
 				goto ret;
 				break;
+				
 			case 3:						//Ajuda
 				Ajuda();
 				goto ret1;
 				break;
+				
 			case 4:						//Acaso
 				
 				break;
@@ -154,26 +173,33 @@ int Comandos(char*comando, int* lc){
 		
 		
 		if(comandoint[0] == 'P' && comandoint[1] == 'o' && comandoint[2] == 'w'){
-			for(i=4;i!=30;i++){
+			for(i=4;i!=30;){
+				//printf("%c\n",comandoint[i]);
 				if(comandoint[i]>=48 && comandoint[i]<=57){					//48 e 57 são os estremos de 0 a 9 na tabala ASCII
 					
 					aux = comandoint[i] - 48;
 					lc[0] = lc[0]*10;	
 					lc[0] = lc[0] + aux;
-					printf("lc[0] = %d\n",lc[0]);
-					
+					i++;
 				}
+				
 				else if(comandoint[i]>=65 && comandoint[i]<=80){				//65 e 80 são os estremos de A a P na tabala ASCII
 					aux = comandoint[i] - 65;
 					lc[1] = aux;
-					printf("lc[1] = %d\n",lc[1]);
+					i++;
 				}
-				else if(comandoint[i] == ' ')	
+				
+				
+				else
 				i++;
 			
 			}
 			
-			if(lc[0]<=0 && !lc[0]>=15 && lc[1]<=0 && lc[1]>=15)
+			lc[0]--;
+			
+			//printf("linha = %d\ncoluna = %d",lc[0],lc[1]);
+		//	sleep(5);
+			if(lc[0]<0 || lc[0]>15 || lc[1]<0 || lc[1]>15)
 				goto erro;
 			
 			return 0;
@@ -193,6 +219,73 @@ int Comandos(char*comando, int* lc){
 		else
 erro:		printf("Digite novamente\n");
 	}
+}
+
+//====================================================================
+//		Comando Pow - Tiro
+//====================================================================
+
+int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16]){
+	int linha,coluna;
+	int aux;
+	int i,j;
+	
+	linha = dados[1];
+	coluna = dados[0];
+		
+	aux = campo[coluna][linha];
+	
+	system("cls");
+	
+	switch (aux){
+		case 0: 
+			printf("Tiro n'agua\n");
+			imgcampo[coluna][linha] = 'X';			// Desenha tiro n'agua
+			campo[coluna][linha] = 5;				
+		break;
+		
+		case 1:
+			printf("Tiro no porta-avioes\n");
+			imgcampo[coluna][linha] = 'x';			// Desenha porta avião
+			campo[coluna][linha] = 5;			
+		break; 	
+		
+		case 2:
+			printf("Tiro no Couracado\n");
+			imgcampo[coluna][linha] = 'x';			// Desenha couraçado
+			campo[coluna][linha] = 5;
+		break;
+		
+		case 3:
+			printf("Tiro no Torpedeiro\n");
+			imgcampo[coluna][linha] = 'x';			// Desenha torperdeiro		
+			campo[coluna][linha] = 5;
+		break;
+		
+		case 4:
+			printf("Tiro no hidroaviao\n");
+			imgcampo[coluna][linha] = 'x';			// Desenha hidroaviao1
+			campo[coluna][linha] = 5;
+		break;
+		
+		case 5:
+			printf("Local ja Selecionado\n");
+			sleep (2);
+			return 1; 
+		break;
+	}
+	
+	sleep (2);
+	
+	
+	for(i=0;i!=16;i++)
+			for(j=0;j!=16;j++){
+				aux = campo[i][j];
+				if(aux == 1 || aux == 2 || aux == 3 || aux == 4)
+					return 0;
+			}
+			
+	return 2;
 }
 
 //====================================================================
@@ -229,7 +322,7 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		iden = 4;
 		for(i=0;i!=4;i++)	
 			Escrita_na_matriz(campo1,H,iden);
-		printf("Os hidroavioes ja estao nos ceus...\n");
+		printf("Os hidroavioes ja estao sobrevoando o local...\n");
 		
 		sleep (2);
 	}	
@@ -428,13 +521,13 @@ cima:				if(pos_neg == 1){					//cima
 //====================================================================
 //		Transformando os dados da matriz em imagem 
 //====================================================================
-	
-void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq vai presiar do numero e da letra do tiro para revelar só aonde atirar 
+
+void Trans(int campo[16][16],char imgcampo[16][16]){		// Vai ter q mudar dps pq vai presiar do numero e da letra do tiro para revelar só aonde atirar 
 	int i,j;
 	
 	for(i=0;i!=16;i++)
-		for(j=0;j!=16;j++){
-			
+		for(j=0;j!=16;j++)
+		{
 			if(campo[i][j] == 0)								// Desenha tiro n'agua	
 				imgcampo[i][j] = ' ';
 			
@@ -449,8 +542,9 @@ void Trans(int campo[16][16],char imgcampo[16][16]){			// Vai ter q mudar dps pq
 			
 			if(campo[i][j] == 4)								
 				imgcampo[i][j] = 'H';							// Desenha hidroaviao1
-						
-		}
+				
+	}
+		
 	return;
 }
 
