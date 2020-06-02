@@ -54,7 +54,7 @@ int main(void){
 	
 	int pontos1,pontos2;
 	
-	double time;
+	double tempo;
 	clock_t start_t, end_t;
 
 	
@@ -72,6 +72,14 @@ rest:
 acaso:	
 	Iniciar_matrizes(campo1,campo2);
 	
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			imgcampo1[i][j] = ' ';
+				imgcampo2[i][j] = ' ';
+		}
+	
+			
 	Trans(campo1,imgcampo1);
 	Trans(campo2,imgcampo2);
 	
@@ -88,11 +96,7 @@ acaso:
 	qa2.to = 21;
 	qa2.hi = 32;
 		
-	for(i=0;i!=16;i++)
-			for(j=0;j!=16;j++){
-				imgcampo1[i][j] = ' ';
-				imgcampo2[i][j] = ' ';
-			}
+
 
 		
 		
@@ -100,10 +104,11 @@ acaso:
 	while(1){
 ret1:	
 		end_t = clock(); 
-		time = end_t - start_t;
-		time = time/CLOCKS_PER_SEC;
+		tempo = end_t - start_t;
+		tempo = tempo/CLOCKS_PER_SEC;
 		
-		Matriz_imagem(campo1,1,imgcampo1,pontos1,time);
+
+		Matriz_imagem(campo1,1,imgcampo1,pontos1,tempo);
 		aux = Comandos(gravar, parametros);
 		
 		switch (aux){
@@ -115,7 +120,7 @@ ret1:
 				
 				if(aux == 2){
 					system("cls");
-					printf("Parabens Jogador 1!!");
+					printf("Parabens Jogador 1!!!\n");\
 					sleep(2);
 					goto rest;
 				}
@@ -157,12 +162,12 @@ ret1:
 
 	
 ret2:	
-	end_t = clock(); 
-	time = end_t - start_t;
-	time = time/CLOCKS_PER_SEC;
+		end_t = clock(); 
+		tempo = end_t - start_t;
+		tempo = tempo/CLOCKS_PER_SEC;
 		
-	Matriz_imagem(campo2,2,imgcampo2,pontos2,time);
-	aux = Comandos(gravar, parametros);
+		Matriz_imagem(campo2,2,imgcampo2,pontos2,tempo);
+		aux = Comandos(gravar, parametros);
 		
 		switch (aux){
 			case 0:						//Tiro	
@@ -173,7 +178,7 @@ ret2:
 				
 				if(aux == 2){
 					system("cls");
-					printf("Parabens Jogador 2!!");
+					printf("Parabens Jogador 2!!!\n");
 					sleep(2);
 					goto rest;
 				}
@@ -212,7 +217,6 @@ ret2:
 				goto ret2;	
 				break;
 		}
-		
 	}
 
 	return 0;
@@ -577,14 +581,12 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		//porta avioes 
 		iden = 1;
 		Escrita_na_matriz(campo1,P,iden);			
-		Escrita_na_matriz(campo2,P,iden);
 		printf("Porta-avioes zarpados...\n");
 		
 		//couraçado
 		iden = 2;
 		for(i=0;i!=2;i++){
 			Escrita_na_matriz(campo1,C,iden);
-			Escrita_na_matriz(campo2,C,iden);
 		}	
 		printf("Os Couracados estao em posicao...\n");	
 			
@@ -592,7 +594,6 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		iden = 3;
 		for(i=0;i!=3;i++){
 			Escrita_na_matriz(campo1,T,iden);
-			Escrita_na_matriz(campo2,T,iden);
 		}	
 		printf("Confirmo a visao de Torpedeiros...\n");	
 			
@@ -600,6 +601,38 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		iden = 4;
 		for(i=0;i!=4;i++){
 			Escrita_na_matriz(campo1,H,iden);
+		}	
+		printf("Os hidroavioes ja estao sobrevoando o local...\n");
+		
+		/*
+			
+			Teve que haver uma separação entre os dois barcos, pois como o selecionamento dos
+			barcos é feito por um srand(time(NULL)) deixar os dois em seguida cria campos iguais
+		
+		*/
+		
+		//porta avioes 2 
+		iden = 1;			
+		Escrita_na_matriz(campo2,P,iden);
+		printf("Porta-avioes zarpados...\n");
+		
+		//couraçado 2
+		iden = 2;
+		for(i=0;i!=2;i++){
+			Escrita_na_matriz(campo2,C,iden);
+		}	
+		printf("Os Couracados estao em posicao...\n");	
+			
+		//torpedeiro 2
+		iden = 3;
+		for(i=0;i!=3;i++){
+			Escrita_na_matriz(campo2,T,iden);
+		}	
+		printf("Confirmo a visao de Torpedeiros...\n");	
+			
+		//hidroaviao 2
+		iden = 4;
+		for(i=0;i!=4;i++){
 			Escrita_na_matriz(campo2,H,iden);
 		}	
 		printf("Os hidroavioes ja estao sobrevoando o local...\n");
