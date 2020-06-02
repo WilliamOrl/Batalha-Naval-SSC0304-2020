@@ -27,15 +27,16 @@ typedef struct{
 //		Lista de funções
 //====================================================================
 
-int 	Menu_de_Inicio(void);																			//start do jogo para o usuario
-int		Comandos(char*comando, int* lc);																//Le os comandos digitados		
-void 	Ajuda(void);																					//Abre o menu de Ajuda
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);										//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);	//Imprime o tabuleiro da batalha naval
-void	Escrita_na_matriz(int mat[16][16], int N, int iden);											//Aloca os barcos na matriz
-void 	Trans(int campo[16][16],char imgcampo[16][16]);													//Transforma os a matriz numerica em imagem
-int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);
-
+int 	Menu_de_Inicio(void);																								//start do jogo para o usuario
+int		Comandos(char* gravar, int* lc);																					//Le os comandos digitados		
+void 	Ajuda(void);																										//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);															//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);						//Imprime o tabuleiro da batalha naval
+void	Escrita_na_matriz(int mat[16][16], int N, int iden);																//Aloca os barcos na matriz
+void 	Trans(int campo[16][16],char imgcampo[16][16]);																		//Transforma os a matriz numerica em imagem
+int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);						//Exerce o tiro e abre as informações na tela
+void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Grava as informações do campo
+void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Carrega as informações do campo
 
 //====================================================================
 //		Inicio
@@ -44,44 +45,55 @@ int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Ba
 int main(void){
 	
 	int aux,i,j;
+	
 	int campo1[16][16],campo2[16][16];
-	char comando[30];
 	char imgcampo1[16][16],imgcampo2[16][16];
+	
+	char gravar[30];
 	int parametros[2];
+	
 	int pontos1,pontos2;
+	
 	double time;
 	clock_t start_t, end_t;
 
-
-
-	start_t = clock();
 	
 fim:
-	for(i=0;i!=16;i++)
-			for(j=0;j!=16;j++){
-				imgcampo1[i][j] = ' ';
-				imgcampo2[i][j] = ' ';
-			}
-
-
-
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
 
 
 
 rest:
+	start_t = clock();
+	pontos1 = 0;
+	pontos2 = 0;
+	
+acaso:	
 	Iniciar_matrizes(campo1,campo2);
+	
 	Trans(campo1,imgcampo1);
+	Trans(campo2,imgcampo2);
 	
-	int pt = 84;
-	Barco qa;						//Quantidade de peças de barcos							
+	int pt1 = 84,pt2 = 84;
+	Barco qa1, qa2;						//Quantidade de peças de barcos							
 	
-	qa.pa = 11;
-	qa.co = 20;
-	qa.to = 21;
-	qa.hi = 32;
+	qa1.pa = 11;
+	qa1.co = 20;
+	qa1.to = 21;
+	qa1.hi = 32;
+	
+	qa2.pa = 11;
+	qa2.co = 20;
+	qa2.to = 21;
+	qa2.hi = 32;
 		
+	for(i=0;i!=16;i++)
+			for(j=0;j!=16;j++){
+				imgcampo1[i][j] = ' ';
+				imgcampo2[i][j] = ' ';
+			}
+
 		
 		
 		
@@ -92,11 +104,11 @@ ret1:
 		time = time/CLOCKS_PER_SEC;
 		
 		Matriz_imagem(campo1,1,imgcampo1,pontos1,time);
-		aux = Comandos(comando, parametros);
+		aux = Comandos(gravar, parametros);
 		
 		switch (aux){
 			case 0:						//Tiro	
-				aux = Tiro(parametros,campo1,imgcampo1,&pontos1,&qa,&pt);
+				aux = Tiro(parametros,campo1,imgcampo1,&pontos1,&qa1,&pt1);
 				
 				if(aux == 1)
 					goto ret1;	 
@@ -112,6 +124,7 @@ ret1:
 			case 1:						//Reset
 				system("cls");
 				printf("Reorganizando os barcos...\n");
+				printf("Zerando os pontos...\n");
 				goto rest;
 				break;
 				
@@ -126,10 +139,82 @@ ret1:
 				break;
 				
 			case 4:						//Acaso
+				system("cls");
+				printf("Reorganizando os barcos...\n");
+				goto acaso;
+				break;
+			
+			case 5:						//Gravar
+				Gravar(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				goto ret1;
+				break;
+			
+			case 6:						//Carregar
+				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				goto ret1;
+				break;	
+		}
+
+	
+ret2:	
+	end_t = clock(); 
+	time = end_t - start_t;
+	time = time/CLOCKS_PER_SEC;
+		
+	Matriz_imagem(campo2,2,imgcampo2,pontos2,time);
+	aux = Comandos(gravar, parametros);
+		
+		switch (aux){
+			case 0:						//Tiro	
+				aux = Tiro(parametros,campo2,imgcampo2,&pontos2,&qa2,&pt2);
 				
+				if(aux == 1)
+					goto ret2;	 
+				
+				if(aux == 2){
+					system("cls");
+					printf("Parabens Jogador 2!!");
+					sleep(2);
+					goto rest;
+				}
+				break;
+				
+			case 1:						//Reset
+				system("cls");
+				printf("Reorganizando os barcos...\n");
+				printf("Zerando os pontos...\n");
+				goto rest;
+				break;
+				
+			case 2:						//Sair
+				aux = 1;
+				goto ret;
+				break;
+				
+			case 3:						//Ajuda
+				Ajuda();
+				goto ret2;
+				break;
+				
+			case 4:						//Acaso
+				system("cls");
+				printf("Reorganizando os barcos...\n");
+				goto acaso;
+				break;
+			
+			case 5:						//Gravar
+				Gravar(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				goto ret2;
+				break;
+			
+			case 6:						//Carregar
+				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				goto ret2;	
 				break;
 		}
+		
 	}
+
 	return 0;
 }
 
@@ -191,15 +276,15 @@ void Ajuda(void){
 	}
 }
 
-//====================================================================
+//====================================================================er
 //		Menu de Comandos
 //====================================================================
 
-int Comandos(char*comando, int* lc){
+int Comandos(char*gravar, int* lc){
 	while(1){
 		
 		char comandoint[30];
-		int i;
+		int i,j;
 		int aux;
 		
 		for(i=0;i!=30;i++){
@@ -243,7 +328,7 @@ int Comandos(char*comando, int* lc){
 			lc[0]--;
 			
 			//printf("linha = %d\ncoluna = %d",lc[0],lc[1]);
-		//	sleep(5);
+			//	sleep(5);
 			if(lc[0]<0 || lc[0]>15 || lc[1]<0 || lc[1]>15)
 				goto erro;
 			
@@ -260,7 +345,26 @@ int Comandos(char*comando, int* lc){
 		
 		else if(comandoint[0] == 'A' && comandoint[1] == 'c' && comandoint[2] == 'a' && comandoint[3] == 's' && comandoint[4] == 'o')
 			return	4;
-					
+			
+		else if(comandoint[0] == 'G' && comandoint[1] == 'r' && comandoint[2] == 'a' && comandoint[3] == 'v' && comandoint[4] == 'a' && comandoint[5] == 'r'){
+			for(i=7, j=0;i!=30;i++,j++){
+					gravar[j] = comandoint[i];	
+				}
+		//	printf("%s",gravar);
+		//	sleep(5);
+			return	5;		
+		}
+			
+				
+		else if(comandoint[0] == 'C' && comandoint[1] == 'a' && comandoint[2] == 'r' && comandoint[3] == 'r' && comandoint[4] == 'e' && comandoint[5] == 'g' && comandoint[6] == 'a' && comandoint[7] == 'r'){
+			for(i=9, j=0;i!=30;i++,j++){
+					gravar[j] = comandoint[i];	
+				}
+			return	6;
+		}
+			
+			
+						
 		else
 erro:		printf("Digite novamente\n");
 	}
@@ -291,8 +395,8 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 			campo[coluna][linha] = 5;
 			if(*pontos != 0){
 				erro = (((N - *pt)*5)/N);
-				printf("erro %d",erro);
-				*pontos = *pontos - erro;
+			//	printf("erro %d",erro);
+			//	*pontos = *pontos - erro;
 			}
 			else 
 				*pontos = *pontos - erro;
@@ -355,6 +459,109 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 }
 
 //====================================================================
+//		Gravar
+//====================================================================
+
+void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+	
+	int i,j;
+	strcat(gravar, ".dat");
+	FILE *arquivo = fopen(gravar,"wb");
+	
+	if(arquivo == NULL){
+		printf("ERRO!\n");
+		return;
+	}
+	
+	system("cls");
+	printf("Gravando o Jogo...\n");
+	
+	for(i=0;i!=16;i++){
+		for(j=0;j!=16;j++){
+			fprintf(arquivo,"%d",campo1[i][j]);	
+		}
+		//fprintf(arquivo,"\n");
+	}
+	
+	
+	for(i=0;i!=16;i++){
+		for(j=0;j!=16;j++){
+			fprintf(arquivo,"%d",campo2[i][j]);	
+		}
+	//	fprintf(arquivo,"\n");
+	}	
+	
+	
+	for(i=0;i!=16;i++){
+		for(j=0;j!=16;j++){
+			fprintf(arquivo,"%c",imgcampo1[i][j]);	
+		}
+	//	fprintf(arquivo,"\n");
+	}
+	
+	
+	for(i=0;i!=16;i++){
+		for(j=0;j!=16;j++){
+			fprintf(arquivo,"%c",imgcampo2[i][j]);	
+		}
+	//	fprintf(arquivo,"\n");
+	}
+	
+	fclose(arquivo);
+	
+	printf("Salvo com Sucesso!\n");
+	sleep(3);
+	
+	return;
+}
+
+//====================================================================
+//		Carregar
+//====================================================================
+
+void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+	
+	int i,j,aux;
+	strcat(gravar, ".dat");
+	FILE *arquivo = fopen(gravar,"rb");
+	
+	if(arquivo == NULL){
+		printf("ERRO!\n");
+		return;
+	}
+	
+	system("cls");
+	printf("Carregando o Jogo...\n");
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			campo1[i][j] = fgetc(arquivo);
+	}
+				
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			campo2[i][j] = fgetc(arquivo);
+	}
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			imgcampo1[i][j] = fgetc(arquivo);
+	}
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++){
+			imgcampo2[i][j] = fgetc(arquivo);
+	}
+	
+	fclose(arquivo);
+	printf("Carregado com Sucesso!\n");
+	sleep(3);
+	
+	return;
+
+}
+
+//====================================================================
 //		Inicialização das matrizes
 //====================================================================
 
@@ -370,24 +577,31 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 		//porta avioes 
 		iden = 1;
 		Escrita_na_matriz(campo1,P,iden);			
+		Escrita_na_matriz(campo2,P,iden);
 		printf("Porta-avioes zarpados...\n");
 		
 		//couraçado
 		iden = 2;
-		for(i=0;i!=2;i++)	
-			Escrita_na_matriz(campo1,C,iden); 
+		for(i=0;i!=2;i++){
+			Escrita_na_matriz(campo1,C,iden);
+			Escrita_na_matriz(campo2,C,iden);
+		}	
 		printf("Os Couracados estao em posicao...\n");	
 			
 		//torpedeiro
 		iden = 3;
-		for(i=0;i!=3;i++)	
-			Escrita_na_matriz(campo1,T,iden); 
+		for(i=0;i!=3;i++){
+			Escrita_na_matriz(campo1,T,iden);
+			Escrita_na_matriz(campo2,T,iden);
+		}	
 		printf("Confirmo a visao de Torpedeiros...\n");	
 			
 		//hidroaviao
 		iden = 4;
-		for(i=0;i!=4;i++)	
+		for(i=0;i!=4;i++){
 			Escrita_na_matriz(campo1,H,iden);
+			Escrita_na_matriz(campo2,H,iden);
+		}	
 		printf("Os hidroavioes ja estao sobrevoando o local...\n");
 		
 		sleep (2);
