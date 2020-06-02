@@ -156,6 +156,15 @@ ret1:
 			
 			case 6:						//Carregar
 				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				
+				for (i=0;i!=16;i++){
+					for (j=0;j!=16;j++){
+						printf("%d",campo1[i][j]);
+					}
+					printf("\n");
+				}
+				
+				sleep(10);			
 				goto ret1;
 				break;	
 		}
@@ -484,7 +493,7 @@ void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1
 		for(j=0;j!=16;j++){
 			fprintf(arquivo,"%d",campo1[i][j]);	
 		}
-		//fprintf(arquivo,"\n");
+	//	fprintf(arquivo,"\n");
 	}
 	
 	
