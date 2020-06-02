@@ -157,14 +157,22 @@ ret1:
 			case 6:						//Carregar
 				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
 				
+				/*
+					Ana, se voce abilitar essa esse for da pra ver 
+					oque ta salvando dentro da matriz dps que carrega
+				*/
+				
+				/*
 				for (i=0;i!=16;i++){
 					for (j=0;j!=16;j++){
 						printf("%d",campo1[i][j]);
 					}
 					printf("\n");
 				}
+				sleep(10);
+				*/
 				
-				sleep(10);			
+							
 				goto ret1;
 				break;	
 		}
