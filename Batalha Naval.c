@@ -34,6 +34,7 @@ void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);															//
 void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);						//Imprime o tabuleiro da batalha naval
 void	Escrita_na_matriz(int mat[16][16], int N, int iden);																//Aloca os barcos na matriz
 void 	Trans(int campo[16][16],char imgcampo[16][16]);																		//Transforma os a matriz numerica em imagem
+void	Snart(int campo[16][16],char imgcampo[16][16]);																		//Transforma os a matriz imagem em numerica
 int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);						//Exerce o tiro e abre as informações na tela
 void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Grava as informações do campo
 void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Carrega as informações do campo
@@ -157,12 +158,11 @@ ret1:
 			case 6:						//Carregar
 				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
 				
-				/*
-					Ana, se voce abilitar essa esse for da pra ver 
-					oque ta salvando dentro da matriz dps que carrega
-				*/
+				Snart(campo1,imgcampo1);
+				Snart(campo2,imgcampo2);
+							
 				
-				/*
+				
 				for (i=0;i!=16;i++){
 					for (j=0;j!=16;j++){
 						printf("%d",campo1[i][j]);
@@ -170,7 +170,7 @@ ret1:
 					printf("\n");
 				}
 				sleep(10);
-				*/
+				
 				
 							
 				goto ret1;
@@ -231,6 +231,10 @@ ret2:
 			
 			case 6:						//Carregar
 				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				
+				Snart(campo1,imgcampo1);
+				Snart(campo2,imgcampo2);
+				
 				goto ret2;	
 				break;
 		}
@@ -497,7 +501,7 @@ void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1
 	system("cls");
 	printf("Gravando o Jogo...\n");
 	
-	for(i=0;i!=16;i++){
+	/*for(i=0;i!=16;i++){
 		for(j=0;j!=16;j++){
 			fprintf(arquivo,"%d",campo1[i][j]);	
 		}
@@ -511,7 +515,7 @@ void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1
 		}
 	//	fprintf(arquivo,"\n");
 	}	
-	
+	*/
 	
 	for(i=0;i!=16;i++){
 		for(j=0;j!=16;j++){
@@ -554,7 +558,7 @@ void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo
 	system("cls");
 	printf("Carregando o Jogo...\n");
 	
-	for(i=0;i!=16;i++)
+	/*for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
 			campo1[i][j] = fgetc(arquivo);
 	}
@@ -563,7 +567,7 @@ void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo
 		for(j=0;j!=16;j++){
 			campo2[i][j] = fgetc(arquivo);
 	}
-	
+	*/
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
 			imgcampo1[i][j] = fgetc(arquivo);
@@ -852,7 +856,7 @@ cima:				if(pos_neg == 1){					//cima
 //		Transformando os dados da matriz em imagem 
 //====================================================================
 
-void Trans(int campo[16][16],char imgcampo[16][16]){		// Vai ter q mudar dps pq vai presiar do numero e da letra do tiro para revelar só aonde atirar 
+void Trans(int campo[16][16],char imgcampo[16][16]){		// Função apenas para testes 
 	int i,j;
 	
 	for(i=0;i!=16;i++)
@@ -878,6 +882,37 @@ void Trans(int campo[16][16],char imgcampo[16][16]){		// Vai ter q mudar dps pq 
 	return;
 }
 
+//====================================================================
+//		Transformando as imagens da matriz em dados 
+//====================================================================
+
+void Snart(int campo[16][16],char imgcampo[16][16]){ 
+	int i,j;
+	
+	for(i=0;i!=16;i++)
+		for(j=0;j!=16;j++)
+		{
+			if(imgcampo[i][j] == ' ')						// Armazena tiro n'agua	
+				campo[i][j] = 0;
+			
+			if(imgcampo[i][j] == 'P')
+				campo[i][j] = 1;							// Armazena porta avião
+			
+			if(imgcampo[i][j] == 'C')								
+				campo[i][j] = 2;							// Armazena couraçado
+				
+			if(imgcampo[i][j] == 'T')								
+				campo[i][j] = 3;							// Armazena torperdeiro
+			
+			if(imgcampo[i][j] == 'H')								
+				campo[i][j] = 4;							// Armazena hidroaviao1
+				
+			if(imgcampo[i][j] == 'X')								
+				campo[i][j] = 5;	
+	}
+		
+	return;
+}
 
 
 
