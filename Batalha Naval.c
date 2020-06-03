@@ -416,7 +416,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 		break;
 		
 		case 1:
-			printf("Tiro no porta-avioes\n");
+			printf("Belo disparo capitao\nTiro no porta-avioes\n");
 			imgcampo[coluna][linha] = 'P';			// Desenha porta avião
 			campo[coluna][linha] = 5;		
 			*pontos = *pontos + (qa->pa*11*1000/N);
@@ -425,7 +425,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 		break; 	
 		
 		case 2:
-			printf("Tiro no Couracado\n");
+			printf("Belo disparo capitao\nTiro no Couracado\n");
 			imgcampo[coluna][linha] = 'C';			// Desenha couraçado
 			campo[coluna][linha] = 5;
 			*pontos = *pontos + (qa->co*10*1000/N);
@@ -434,7 +434,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 		break;
 		
 		case 3:
-			printf("Tiro no Torpedeiro\n");
+			printf("Belo disparo capitao\nTiro no Torpedeiro\n");
 			imgcampo[coluna][linha] = 'T';			// Desenha torperdeiro		
 			campo[coluna][linha] = 5;
 			*pontos = *pontos + (qa->to*7*1000/N);
@@ -443,7 +443,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 		break;
 		
 		case 4:
-			printf("Tiro no hidroaviao\n");
+			printf("Belo disparo capitao\nTiro no hidroaviao\n");
 			imgcampo[coluna][linha] = 'H';			// Desenha hidroaviao1
 			campo[coluna][linha] = 5;
 			*pontos = *pontos + (qa->hi*8*1000/N);
