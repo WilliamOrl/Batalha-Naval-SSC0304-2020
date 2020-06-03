@@ -36,8 +36,8 @@ void	Escrita_na_matriz(int mat[16][16], int N, int iden);																//Aloca
 void 	Trans(int campo[16][16],char imgcampo[16][16]);																		//Transforma os a matriz numerica em imagem
 void	Snart(int campo[16][16],char imgcampo[16][16]);																		//Transforma os a matriz imagem em numerica
 int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);						//Exerce o tiro e abre as informações na tela
-void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Grava as informações do campo
-void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);		//Carrega as informações do campo
+void	Gravar(char* gravar, char imgcampo1[16][16], char imgcampo2[16][16]);												//Grava as informações do campo
+void	Carrega(char* gravar, char imgcampo1[16][16], char imgcampo2[16][16]);												//Carrega as informações do campo
 
 //====================================================================
 //		Inicio
@@ -151,12 +151,12 @@ ret1:
 				break;
 			
 			case 5:						//Gravar
-				Gravar(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				Gravar(gravar, imgcampo1, imgcampo2);
 				goto ret1;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, imgcampo1, imgcampo2);
 				
 				Snart(campo1,imgcampo1);
 				Snart(campo2,imgcampo2);
@@ -225,12 +225,12 @@ ret2:
 				break;
 			
 			case 5:						//Gravar
-				Gravar(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				Gravar(gravar, imgcampo1, imgcampo2);
 				goto ret2;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, imgcampo1, imgcampo2);
 				
 				Snart(campo1,imgcampo1);
 				Snart(campo2,imgcampo2);
@@ -487,7 +487,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 //		Gravar
 //====================================================================
 
-void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+void	Gravar(char* gravar, char imgcampo1[16][16], char imgcampo2[16][16]){
 	
 	int i,j;
 	strcat(gravar, ".dat");
@@ -544,7 +544,7 @@ void	Gravar(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1
 //		Carregar
 //====================================================================
 
-void	Carrega(char* gravar, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+void	Carrega(char* gravar, char imgcampo1[16][16], char imgcampo2[16][16]){
 	
 	int i,j,aux;
 	strcat(gravar, ".dat");
