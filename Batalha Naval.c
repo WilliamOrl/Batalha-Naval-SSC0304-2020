@@ -59,7 +59,7 @@ int main(void){
 	clock_t start_t, end_t;
 
 	
- system("start music.mp3");
+system("start music.mp3");
 	
 fim:
 	aux = Menu_de_Inicio();
@@ -83,8 +83,8 @@ acaso:
 		}
 	
 			
-	Trans(campo1,imgcampo1);
-	Trans(campo2,imgcampo2);
+//	Trans(campo1,imgcampo1);
+//	Trans(campo2,imgcampo2);
 	
 	int pt1 = 84,pt2 = 84;
 	Barco qa1, qa2;						//Quantidade de peças de barcos							
@@ -160,7 +160,7 @@ ret1:
 			case 6:						//Carregar
 				Carrega(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
 				
-				
+				/*
 				for (i=0;i!=16;i++){
 					for (j=0;j!=16;j++){
 						printf("%d",campo1[i][j]);
@@ -168,7 +168,7 @@ ret1:
 					printf("\n");
 				}
 				sleep(10);
-				
+				*/
 				
 							
 				goto ret1;
@@ -874,39 +874,6 @@ void Trans(int campo[16][16],char imgcampo[16][16]){		// Função apenas para test
 		
 	return;
 }
-
-//====================================================================
-//		Transformando as imagens da matriz em dados 
-//====================================================================
-
-void Snart(int campo[16][16],char imgcampo[16][16]){ 
-	int i,j;
-	
-	for(i=0;i!=16;i++)
-		for(j=0;j!=16;j++)
-		{
-			if(imgcampo[i][j] == ' ')						// Armazena tiro n'agua	
-				campo[i][j] = 0;
-			
-			if(imgcampo[i][j] == 'P')
-				campo[i][j] = 1;							// Armazena porta avião
-			
-			if(imgcampo[i][j] == 'C')								
-				campo[i][j] = 2;							// Armazena couraçado
-				
-			if(imgcampo[i][j] == 'T')								
-				campo[i][j] = 3;							// Armazena torperdeiro
-			
-			if(imgcampo[i][j] == 'H')								
-				campo[i][j] = 4;							// Armazena hidroaviao1
-				
-			if(imgcampo[i][j] == 'X')								
-				campo[i][j] = 5;	
-	}
-		
-	return;
-}
-
 
 //====================================================================
 //		Desenhando o campo de batalha 
