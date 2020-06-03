@@ -59,6 +59,8 @@ int main(void){
 	clock_t start_t, end_t;
 
 	
+ system("start music.mp3");
+	
 fim:
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
