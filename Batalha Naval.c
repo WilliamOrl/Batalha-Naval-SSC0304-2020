@@ -7,9 +7,9 @@
 #define C 10						// Couraçado		qtd.2 		identificação 2
 #define T 7							// Torpedeiros		qtd.3		identificação 3
 #define H 8							// Hidroavioes		qtd.4		identificação 4					 
-#define ALTO 1	
-#define BAIXO 0
-#define FLUTUANTE 3
+#define ALTO 1						// Representa um sinal logico alto, ou seja verdadeiro para o programa
+#define BAIXO 0						// Representa um sinal logico baixo, ou seja falso ao programa
+#define FLUTUANTE 3					// Representa um sinal logico que não esta em alto nem baixo, ou seja indefinido
 //====================================================================
 //		Struct das quantidades de peças 
 //====================================================================
@@ -35,8 +35,8 @@ void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pon
 void	Escrita_na_matriz(int mat[16][16], int N, int iden);																								//Aloca os barcos na matriz
 void 	Trans(int campo[16][16],char imgcampo[16][16]);																										//Transforma os a matriz numerica em imagem
 int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);														//Exerce o tiro e abre as informações na tela
-void	Gravar(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
-void	Carrega(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);			//Carrega as informações do campo
+void	Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
+void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);			//Carrega as informações do campo
 
 //====================================================================
 //		Inicio
@@ -80,8 +80,8 @@ acaso:
 		}
 	
 			
-//	Trans(campo1,imgcampo1);
-//	Trans(campo2,imgcampo2);
+	Trans(campo1,imgcampo1);
+	Trans(campo2,imgcampo2);
 	
 	int pt1 = 84,pt2 = 84;
 	Barco qa1, qa2;						//Quantidade de peças de barcos							
@@ -150,12 +150,15 @@ ret1:
 				break;
 			
 			case 5:						//Gravar
-				Gravar(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
+				end_t = clock(); 
+				tempo = end_t - start_t;
+				tempo = tempo/CLOCKS_PER_SEC;
+				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret1;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
 										
 				goto ret1;
 				break;	
@@ -209,12 +212,15 @@ ret2:
 				break;
 			
 			case 5:						//Gravar
-				Gravar(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
+				end_t = clock(); 
+				tempo = end_t - start_t;
+				tempo = tempo/CLOCKS_PER_SEC;
+				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret2;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
 				
 				goto ret2;	
 				break;
@@ -464,7 +470,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 //		Gravar
 //====================================================================
 
-void Gravar(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]){
+void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
 	
 	int i,j;
 	strcat(gravar, ".dat");
@@ -480,7 +486,7 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int ca
 	
 	fwrite(pontos1,sizeof(int),1,arquivo);
 	fwrite(pontos2,sizeof(int),1,arquivo);
-	
+	fwrite(tempo,sizeof(double),1,arquivo);
 	
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
@@ -520,7 +526,7 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int ca
 //		Carregar
 //====================================================================
 
-void	Carrega(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]){
+void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
 	
 	int i,j,aux;
 	strcat(gravar, ".dat");
@@ -537,6 +543,7 @@ void	Carrega(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int c
 	
 	fread(pontos1,sizeof(int),1,arquivo);
 	fread(pontos2,sizeof(int),1,arquivo);
+	fread(tempo,sizeof(double),1,arquivo);
 	
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
