@@ -22,7 +22,6 @@ typedef struct{
 }Barco;
 
 
-
 //====================================================================
 //		Lista de funções
 //====================================================================
@@ -79,10 +78,6 @@ acaso:
 				imgcampo2[i][j] = ' ';
 		}
 	
-			
-//	Trans(campo1,imgcampo1);
-//	Trans(campo2,imgcampo2);
-	
 	int pt1 = 84,pt2 = 84;
 	Barco qa1, qa2;						//Quantidade de peças de barcos							
 	
@@ -95,11 +90,7 @@ acaso:
 	qa2.co = 20;
 	qa2.to = 21;
 	qa2.hi = 32;
-		
-
-
-		
-		
+			
 		
 	while(1){
 ret1:	
@@ -256,18 +247,18 @@ inicio:
 	scanf("%d",&aux);
 	
 	switch (aux){
-		case 1:
+		case 1:				//Iniciar
 			system("cls");
 			printf("Preparando a Batalha...\n");
 			return 0;		
 		break;
 		
-		case 2:
+		case 2:				//Ajuda
 			Ajuda();
 			goto inicio;
 		break;
 		
-		case 3:
+		case 3:				//Sair
 			return 1;
 		break;	
 
@@ -327,12 +318,18 @@ int Comandos(char*gravar, int* lc){
 		setbuf(stdin, NULL);
 		
 		
-		if(comandoint[0] == 'P' && comandoint[1] == 'o' && comandoint[2] == 'w'){
-			for(i=4;i!=30;){
+		if(comandoint[0] == 'P' && comandoint[1] == 'o' && comandoint[2] == 'w'){		//Comando Pow
+		
+			/*
+			Nesta parte, o programa transforma o valor ditado no tipo char para o tipo int
+			facilitando assim, o envio para a proxima função 
+			*/
+			
+				for(i=4;i!=30;){
 				
 				if(comandoint[i]>=48 && comandoint[i]<=57){					//48 e 57 são os estremos de 0 a 9 na tabala ASCII
 					
-					aux = comandoint[i] - 48;
+					aux = comandoint[i] - 48;								
 					lc[0] = lc[0]*10;	
 					lc[0] = lc[0] + aux;
 					i++;
@@ -343,7 +340,6 @@ int Comandos(char*gravar, int* lc){
 					lc[1] = aux;
 					i++;
 				}
-				
 				
 				else
 				i++;
@@ -358,19 +354,26 @@ int Comandos(char*gravar, int* lc){
 			
 			return 0;
 		}
-		else if(comandoint[0] == 'R' && comandoint[1] == 'e' && comandoint[2] == 's' && comandoint[3] == 'e' && comandoint[4] == 't')
+		else if(comandoint[0] == 'R' && comandoint[1] == 'e' && comandoint[2] == 's' && comandoint[3] == 'e' && comandoint[4] == 't') //Reset
 			return	1;
 		
-		else if(comandoint[0] == 'S' && comandoint[1] == 'a' && comandoint[2] == 'i' && comandoint[3] == 'r')
+		else if(comandoint[0] == 'S' && comandoint[1] == 'a' && comandoint[2] == 'i' && comandoint[3] == 'r') //Sair
 			return	2;
 		
-		else if(comandoint[0] == 'A' && comandoint[1] == 'j' && comandoint[2] == 'u' && comandoint[3] == 'd' && comandoint[4] == 'a')
+		else if(comandoint[0] == 'A' && comandoint[1] == 'j' && comandoint[2] == 'u' && comandoint[3] == 'd' && comandoint[4] == 'a') //Ajuda
 			return	3;
 		
-		else if(comandoint[0] == 'A' && comandoint[1] == 'c' && comandoint[2] == 'a' && comandoint[3] == 's' && comandoint[4] == 'o')
+		else if(comandoint[0] == 'A' && comandoint[1] == 'c' && comandoint[2] == 'a' && comandoint[3] == 's' && comandoint[4] == 'o')	//Acaso
 			return	4;
 			
-		else if(comandoint[0] == 'G' && comandoint[1] == 'r' && comandoint[2] == 'a' && comandoint[3] == 'v' && comandoint[4] == 'a' && comandoint[5] == 'r'){
+		else if(comandoint[0] == 'G' && comandoint[1] == 'r' && comandoint[2] == 'a' && comandoint[3] == 'v' && comandoint[4] == 'a' && comandoint[5] == 'r'){ //Gravar
+		
+			/*
+				O programa aqui salva o nome do arquivo em uma nova sting
+				que será enviada para fora do programa para ser usada de nome
+				do arquivo salvo 
+			*/
+			
 			for(i=7, j=0;i!=30;i++,j++){
 					gravar[j] = comandoint[i];	
 				}
@@ -378,14 +381,25 @@ int Comandos(char*gravar, int* lc){
 		}
 			
 				
-		else if(comandoint[0] == 'C' && comandoint[1] == 'a' && comandoint[2] == 'r' && comandoint[3] == 'r' && comandoint[4] == 'e' && comandoint[5] == 'g' && comandoint[6] == 'a' && comandoint[7] == 'r'){
+		else if(comandoint[0] == 'C' && comandoint[1] == 'a' && comandoint[2] == 'r' && comandoint[3] == 'r' && comandoint[4] == 'e' && comandoint[5] == 'g' && comandoint[6] == 'a' && comandoint[7] == 'r'){ //Carregar
+		
+			/*
+				O programa aqui salva o nome do arquivo em uma nova sting
+				que será enviada para fora do programa para ser usada de nome
+				do arquivo para o carregamento 
+			*/
+			
 			for(i=9, j=0;i!=30;i++,j++){
 					gravar[j] = comandoint[i];	
 				}
 			return	6;
 		}
 		
-		else if	(comandoint[0] == 'M' && comandoint[1] == 'o' && comandoint[2] == 'd' && comandoint[3] == 'e' && comandoint[4] == ' ' && comandoint[5] == '5' && comandoint[6] == '9' && comandoint[7] == '3'){
+		else if	(comandoint[0] == 'M' && comandoint[1] == 'o' && comandoint[2] == 'd' && comandoint[3] == 'e' && comandoint[4] == ' ' && comandoint[5] == '1' && comandoint[6] == '2' && comandoint[7] == '3'){
+			/*
+				Rotina para desenvolvedores onde, todos os barcos ficam visiveis, 
+				facilitando assim a localização de algum erro
+			*/
 			return 7;
 		}
 			
@@ -412,6 +426,12 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 	aux = campo[coluna][linha];
 	
 	system("cls");
+	
+	/*
+		Sempre que um lugar é selecionado o seu valor de indentificação é mudado
+		para 5 para assim poder analizar a vitoria do jogo e, evitar que um jogador
+		selecione o mesmo lugar duas vezes desperciando sua jogada.
+	*/
 	
 	switch (aux){
 		case 0: 
@@ -474,7 +494,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 	for(i=0;i!=16;i++)
 			for(j=0;j!=16;j++){
 				aux = campo[i][j];
-				if(aux == 1 || aux == 2 || aux == 3 || aux == 4)		//Verigeica se ainda existe algum barco de pé
+				if(aux == 1 || aux == 2 || aux == 3 || aux == 4)		//Verifica se ainda existe algum barco de pé
 					return 0;
 			}
 			
@@ -489,15 +509,26 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 	
 	int i,j;
 	strcat(gravar, ".dat");
-	FILE *arquivo = fopen(gravar,"wb");
+	FILE *arquivo = fopen(gravar,"wb");		//Cria o arquivo com o nome selecionado dentro da função Comandos
 	
-	if(arquivo == NULL){
+	if(arquivo == NULL){		//Verifica se o arquivo foi inicializado com sucesso	
 		printf("ERRO!\n");
 		return;
 	}
 	
 	system("cls");
 	printf("Gravando o Jogo...\n");
+	
+	/*
+		Grava os valores requisitados no arquivo:
+		Pontos 1 
+		Pontos 2 
+		Tempo 
+		Matriz de identificação do jogador 1
+		Matriz de identificação do jogador 2
+		Matriz de imagem do jogador 1
+		Matriz de imagem do jogador 2
+	*/
 	
 	fwrite(pontos1,sizeof(int),1,arquivo);
 	fwrite(pontos2,sizeof(int),1,arquivo);
@@ -518,7 +549,6 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 		for(j=0;j!=16;j++){
 			fprintf(arquivo,"%c",imgcampo1[i][j]);	
 		}
-	//	fprintf(arquivo,"\n");
 	}
 	
 	
@@ -526,7 +556,6 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 		for(j=0;j!=16;j++){
 			fprintf(arquivo,"%c",imgcampo2[i][j]);	
 		}
-	//	fprintf(arquivo,"\n");
 	}
 	
 	fclose(arquivo);
@@ -545,15 +574,26 @@ void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1
 	
 	int i,j,aux;
 	strcat(gravar, ".dat");
-	FILE *arquivo = fopen(gravar,"rb");
+	FILE *arquivo = fopen(gravar,"rb");		//Carregar o arquivo com o nome selecionado dentro da função Comandos
 	
-	if(arquivo == NULL){
+	if(arquivo == NULL){		//Verifica se o arquivo foi inicializado com sucesso
 		printf("ERRO!\n");
 		return;
 	}
 	
 	system("cls");
 	printf("Carregando o Jogo...\n");
+	
+	/*
+		Carrega os valores salvos do arquivo:
+		Pontos 1 
+		Pontos 2 
+		Tempo 
+		Matriz de identificação do jogador 1
+		Matriz de identificação do jogador 2
+		Matriz de imagem do jogador 1
+		Matriz de imagem do jogador 2
+	*/
 	
 	
 	fread(pontos1,sizeof(int),1,arquivo);
@@ -600,7 +640,13 @@ void Iniciar_matrizes(int campo1[16][16],int campo2[16][16]){
 				campo1[i][j] = 0;
 				campo2[i][j] = 0;
 			}
-
+		
+		/*
+			O programa adribui a cada barco uma identificação
+			Cada identificação esta escrita no inicio do programa
+		
+		*/
+		
 		//porta avioes 
 		iden = 1;
 		Escrita_na_matriz(campo1,P,iden);			
@@ -675,26 +721,35 @@ void Escrita_na_matriz(int mat[16][16], int N, int iden){
 	unsigned int x,y,vert_hor,pos_neg;
 	int i,j,aux,aux2,n_char;
 
+	
 inicio:		
 		n_char=0;
 		aux = ALTO;
 		aux2 = FLUTUANTE;
+			
+		srand(time(NULL));
+		x = rand() %16;			//Seleciona um lugar aleatorio em X na matriz
 		
 		srand(time(NULL));
-		x = rand() %16;
+		y = rand() %16;			//Seleciona um lugar aleatorio em Y na matriz
 		
 		srand(time(NULL));
-		y = rand() %16;
-		
-		srand(time(NULL));
-		vert_hor = rand() %2;							//zero:horizontal//   //um:vertical//
-		
+		vert_hor = rand() %2;	// Seleciona se a matriz sera escrita na vertical ou horizontal
+	
+		/*
+			0 = horizontal  
+			1 = vertical
+		*/
 				
 hor:	if(vert_hor == 0){								//horizontal
 			
 			srand(time(NULL));
-			pos_neg = rand() %2;						//zero: direta //     //um:esquerda// 
-				
+			pos_neg = rand() %2;	// Seleciona se a matriz sera escrita na direita ou esquerda					
+		
+			/*
+				0 = direita    
+				1 = esquerda 
+			*/	
 				
 direita:			if(pos_neg == 0){					//direita
 						for(i=y,j=0;j<N;i++,j++){
@@ -702,29 +757,50 @@ direita:			if(pos_neg == 0){					//direita
 								if(aux2 != ALTO)
 									n_char ++;
 								
-								if(n_char == N){		//Reiniciando o for
+								/*
+									Verifica inicioalmente se todos os lugares 
+									na matriz estão disponiveis para a escrita do barco
+								*/
+								
+								if(n_char == N){		//Reiniciando o for caso seja verdade
 									j=0;
 									i=y;
 									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char>= N){
+								if(n_char>= N){			//Escreve o barco
 									mat[x][i] = iden; 
 								}		
 							}
 							
-							else{
+							else{		//Caso o barco não consiga ocupar o espaço
 							
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
+										/*
+											Isso so sera verdadeiro caso
+											o barco ja tenha tentado ir para esquerda, 
+											direita, cima e baixo e em nenhum desas opções
+											tenha dado certo para encaixar o barco
+											Portanto sera selecionado um novo lugar na matriz
+											para testes
+										*/
 										goto inicio;
+									
+									/*
+										Inverte o sentido de horizontal para vertical
+									*/	
 									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 1;	
 									goto vert;
-								}	
+								}
+								
+								/*
+									Inverte o sentido da direita para a esqueda
+								*/	
 								n_char=0;
 								aux = BAIXO;
 								pos_neg = 1;
@@ -738,29 +814,50 @@ esquerda:			if(pos_neg == 1){					//esquerda
 							if(mat[x][i] == 0 && i>=0){
 								if(aux2 != ALTO)
 									n_char ++;
+									
+								/*
+									Verifica inicioalmente se todos os lugares 
+									na matriz estão disponiveis para a escrita do barco
+								*/	
 												
-								if(n_char == N){		//Reiniciando o for
+								if(n_char == N){		//Reiniciando o for caso seja verdade
 									j=0;
 									i=y;
 									n_char ++;
 									aux2 = ALTO;
 								}			
 								
-								if(n_char>= N){
+								if(n_char>= N){			//Escreve o barco
 									mat[x][i] = iden;
 								}
 							}
-							else{
+							else{		//Caso o barco não consiga ocupar o espaço
 							
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
+										/*
+											Isso so sera verdadeiro caso
+											o barco ja tenha tentado ir para esquerda, 
+											direita, cima e baixo e em nenhum desas opções
+											tenha dado certo para encaixar o barco
+											Portanto sera selecionado um novo lugar na matriz
+											para testes
+										*/									
 										goto inicio;
+										
+									/*
+										Inverte o sentido de horizontal para vertical
+									*/		
 									n_char=0;
 									aux = ALTO;		
 									aux2 = BAIXO;						
 									vert_hor = 1;	
 									goto vert;
 								}
+								
+								/*
+									Inverte o sentido da direita para a direita
+								*/	
 								n_char=0;
 								aux = BAIXO;
 								pos_neg = 0;
@@ -774,8 +871,12 @@ esquerda:			if(pos_neg == 1){					//esquerda
 vert:	if(vert_hor == 1){								//vertical
 			
 			srand(time(NULL));
-			pos_neg = rand() %2;						//zero: baixo      um:cima 
-				
+			pos_neg = rand() %2;						// Seleciona se a matriz sera escrita na cima ou baixo
+			 
+			/*
+				0 = bbaixo    
+				1 = cima 
+			*/		
 				
 baixo:				if(pos_neg == 0){					//baixo
 						for(i=x,j=0;j<N;i++,j++){
@@ -783,7 +884,12 @@ baixo:				if(pos_neg == 0){					//baixo
 								if(aux2 != ALTO)
 									n_char ++;
 								
-								if(n_char == N){		//Reiniciando o for
+								/*
+									Verifica inicioalmente se todos os lugares 
+									na matriz estão disponiveis para a escrita do barco
+								*/
+								
+								if(n_char == N){		//Reiniciando o for caso seja verdade
 									j=0;
 									i=x;
 									n_char ++;
