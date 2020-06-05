@@ -34,7 +34,6 @@ void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);																	
 void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);														//Imprime o tabuleiro da batalha naval
 void	Escrita_na_matriz(int mat[16][16], int N, int iden);																								//Aloca os barcos na matriz
 void 	Trans(int campo[16][16],char imgcampo[16][16]);																										//Transforma os a matriz numerica em imagem
-void	Snart(int campo[16][16],char imgcampo[16][16]);																										//Transforma os a matriz imagem em numerica
 int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);														//Exerce o tiro e abre as informações na tela
 void	Gravar(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
 void	Carrega(char* gravar, int* pontos1, int* pontos2, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);			//Carrega as informações do campo
