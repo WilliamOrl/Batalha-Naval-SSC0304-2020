@@ -155,7 +155,7 @@ ret1:
 				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
-				aux = 1;
+				aux = 1;				//Seleciona a vez do jogador anteriormente a ser salvo
 				Gravar(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret1;
 				break;
@@ -231,7 +231,7 @@ ret2:
 				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
-				aux = 2;
+				aux = 2;				//Seleciona a vez do jogador anteriormente a ser salvo
 				Gravar(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret2;
 				break;
