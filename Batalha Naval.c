@@ -80,8 +80,8 @@ acaso:
 		}
 	
 			
-	Trans(campo1,imgcampo1);
-	Trans(campo2,imgcampo2);
+//	Trans(campo1,imgcampo1);
+//	Trans(campo2,imgcampo2);
 	
 	int pt1 = 84,pt2 = 84;
 	Barco qa1, qa2;						//Quantidade de peças de barcos							
@@ -162,6 +162,12 @@ ret1:
 										
 				goto ret1;
 				break;	
+			
+			case 7:
+				Trans(campo1,imgcampo1);
+				Trans(campo2,imgcampo2);
+				goto ret1;
+				break;
 		}
 
 	
@@ -223,6 +229,12 @@ ret2:
 				Carrega(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
 				
 				goto ret2;	
+				break;
+			
+			case 7:
+				Trans(campo1,imgcampo1);
+				Trans(campo2,imgcampo2);
+				goto ret2;
 				break;
 		}
 	}
@@ -372,7 +384,10 @@ int Comandos(char*gravar, int* lc){
 				}
 			return	6;
 		}
-			
+		
+		else if	(comandoint[0] == 'M' && comandoint[1] == 'o' && comandoint[2] == 'd' && comandoint[3] == 'e' && comandoint[4] == ' ' && comandoint[5] == '5' && comandoint[6] == '9' && comandoint[7] == '3'){
+			return 7;
+		}
 			
 						
 		else
