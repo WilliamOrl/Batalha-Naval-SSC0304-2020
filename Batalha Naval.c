@@ -26,14 +26,14 @@ typedef struct{
 //		Lista de funções
 //====================================================================
 
-int 	Menu_de_Inicio(void);																																//start do jogo para o usuario
-int		Comandos(char* gravar, int* lc);																													//Le os comandos digitados		
-void 	Ajuda(void);																																		//Abre o menu de Ajuda
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);																							//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);														//Imprime o tabuleiro da batalha naval
-void	Escrita_na_matriz(int mat[16][16], int N, int iden);																								//Aloca os barcos na matriz
-void 	Trans(int campo[16][16],char imgcampo[16][16]);																										//Transforma os a matriz numerica em imagem
-int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);														//Exerce o tiro e abre as informações na tela
+int 	Menu_de_Inicio(void);																																				//start do jogo para o usuario
+int		Comandos(char* gravar, int* lc);																																	//Le os comandos digitados		
+void 	Ajuda(void);																																						//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);																											//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);																		//Imprime o tabuleiro da batalha naval
+void	Escrita_na_matriz(int mat[16][16], int N, int iden);																												//Aloca os barcos na matriz
+void 	Trans(int campo[16][16],char imgcampo[16][16]);																														//Transforma os a matriz numerica em imagem
+int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);																		//Exerce o tiro e abre as informações na tela
 void	Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
 void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);			//Carrega as informações do campo
 
