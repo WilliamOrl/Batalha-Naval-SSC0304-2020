@@ -26,16 +26,16 @@ typedef struct{
 //		Lista de funções
 //====================================================================
 
-int 	Menu_de_Inicio(void);																																				//start do jogo para o usuario
-int		Comandos(char* gravar, int* lc);																																	//Le os comandos digitados		
-void 	Ajuda(void);																																						//Abre o menu de Ajuda
-void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);																											//Randomiza os barcos 						
-void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);																		//Imprime o tabuleiro da batalha naval
-void	Escrita_na_matriz(int mat[16][16], int N, int iden);																												//Aloca os barcos na matriz
-void 	Trans(int campo[16][16],char imgcampo[16][16]);																														//Transforma os a matriz numerica em imagem
-int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);																		//Exerce o tiro e abre as informações na tela
-void	Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
-void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]);			//Carrega as informações do campo
+int 	Menu_de_Inicio(void);																																						//start do jogo para o usuario
+int		Comandos(char* gravar, int* lc);																																			//Le os comandos digitados		
+void 	Ajuda(void);																																								//Abre o menu de Ajuda
+void 	Iniciar_matrizes(int campo1[16][16],int campo2 [16][16]);																													//Randomiza os barcos 						
+void	Matriz_imagem(int campo[16][16],int jogador, char imgcampo[16][16], int pontos, double tempo);																				//Imprime o tabuleiro da batalha naval
+void	Escrita_na_matriz(int mat[16][16], int N, int iden);																														//Aloca os barcos na matriz
+void 	Trans(int campo[16][16],char imgcampo[16][16]);																																//Transforma os a matriz numerica em imagem
+int 	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int *pontos, Barco* qa, int* pt);																				//Exerce o tiro e abre as informações na tela
+void	Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int* aux, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);			//Grava as informações do campo
+void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int* aux, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]);		//Carrega as informações do campo
 
 //====================================================================
 //		Inicio
@@ -155,12 +155,17 @@ ret1:
 				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
-				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
+				aux = 1;
+				Gravar(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret1;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
+				
+				if(aux == 2){
+					goto ret2;
+				}
 										
 				goto ret1;
 				break;	
@@ -226,13 +231,18 @@ ret2:
 				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
-				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
+				aux = 2;
+				Gravar(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
 				goto ret2;
 				break;
 			
 			case 6:						//Carregar
-				Carrega(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
+				Carrega(gravar, &pontos1, &pontos2, &tempo, &aux, campo1, campo2, imgcampo1, imgcampo2);
 				
+				if(aux == 1){
+					goto ret1;
+				}
+			
 				goto ret2;	
 				break;
 			
@@ -522,7 +532,7 @@ int	Tiro(int dados[], int campo[16][16], char imgcampo[16][16], int* pontos, Bar
 //		Gravar
 //====================================================================
 
-void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int* aux, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]){
 	
 	int i,j;
 	strcat(gravar, ".dat");
@@ -541,6 +551,7 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 		Pontos 1 
 		Pontos 2 
 		Tempo 
+		Vez do jogador
 		Matriz de identificação do jogador 1
 		Matriz de identificação do jogador 2
 		Matriz de imagem do jogador 1
@@ -550,6 +561,7 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 	fwrite(pontos1,sizeof(int),1,arquivo);
 	fwrite(pontos2,sizeof(int),1,arquivo);
 	fwrite(tempo,sizeof(double),1,arquivo);
+	fwrite(aux,sizeof(int),1,arquivo);
 	
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
@@ -587,9 +599,9 @@ void Gravar(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[
 //		Carregar
 //====================================================================
 
-void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1[16][16], int campo2[16][16], char imgcampo1[16][16], char imgcampo2[16][16]){
+void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int* aux, int campo1[16][16], int campo2[16][16],  char imgcampo1[16][16], char imgcampo2[16][16]){
 	
-	int i,j,aux;
+	int i,j;
 	strcat(gravar, ".dat");
 	FILE *arquivo = fopen(gravar,"rb");		//Carregar o arquivo com o nome selecionado dentro da função Comandos
 	
@@ -606,6 +618,7 @@ void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1
 		Pontos 1 
 		Pontos 2 
 		Tempo 
+		Vez do jogador
 		Matriz de identificação do jogador 1
 		Matriz de identificação do jogador 2
 		Matriz de imagem do jogador 1
@@ -616,6 +629,7 @@ void	Carrega(char* gravar, int* pontos1, int* pontos2, double* tempo, int campo1
 	fread(pontos1,sizeof(int),1,arquivo);
 	fread(pontos2,sizeof(int),1,arquivo);
 	fread(tempo,sizeof(double),1,arquivo);
+	fread(aux,sizeof(int),1,arquivo);
 	
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++){
