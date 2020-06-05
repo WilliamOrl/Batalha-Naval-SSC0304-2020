@@ -157,18 +157,7 @@ ret1:
 			
 			case 6:						//Carregar
 				Carrega(gravar, &pontos1, &pontos2, campo1, campo2, imgcampo1, imgcampo2);
-				
-				/*
-				for (i=0;i!=16;i++){
-					for (j=0;j!=16;j++){
-						printf("%d",campo1[i][j]);
-					}
-					printf("\n");
-				}
-				sleep(10);
-				*/
-				
-							
+										
 				goto ret1;
 				break;	
 		}
@@ -277,6 +266,7 @@ void Ajuda(void){
 	
 	system("cls");
 	
+	printf("Pow (coluna)(linha) - Seleciona um lugar para atirar\n");
 	printf("Reset - Nova partida\n");
 	printf("Sair - Abandonar o Jogo\n");
 	printf("Ajuda-Retona a este Menu\n");
