@@ -61,14 +61,21 @@ fim:
 	aux = Menu_de_Inicio();
 ret:	if(aux==1)	return 0;
 
+/*
+	O programa funciona basicamente apartir de duas matrizes:
+	
+	campo: que apresenta todas as possiçoes dos barcos e não é acessivel ao jogador
+	
+	imgcampo: que apresenta tudo aquilo que o jogador consegue ver, sendo que a matriz campo
+	ao decorrer do jogo passará as informações para o complemento da imgcampo
+*/
 
-
-rest:
+rest:			//Reinicia os campos o tempo e os pontos
 	start_t = clock();
 	pontos1 = 0;
 	pontos2 = 0;
 	
-acaso:	
+acaso:			// Reinicia apenas os campos
 	Iniciar_matrizes(campo1,campo2);
 	
 	
@@ -81,6 +88,10 @@ acaso:
 	int pt1 = 84,pt2 = 84;
 	Barco qa1, qa2;						//Quantidade de peças de barcos							
 	
+	/*
+		qa é a quantidade de cada barco peça de barco no tabuleiro
+	*/
+	
 	qa1.pa = 11;
 	qa1.co = 20;
 	qa1.to = 21;
@@ -92,9 +103,9 @@ acaso:
 	qa2.hi = 32;
 			
 		
-	while(1){
+	while(1){		//Inicio do Jogo 
 ret1:	
-		end_t = clock(); 
+		end_t = clock(); 				//Calcula o tempo passado desde o inicio do jogo
 		tempo = end_t - start_t;
 		tempo = tempo/CLOCKS_PER_SEC;
 		
@@ -109,7 +120,7 @@ ret1:
 				if(aux == 1)
 					goto ret1;	 
 				
-				if(aux == 2){
+				if(aux == 2){			//Com o aux sendo igual a dois todos os barcos inimicos foram abatidos
 					system("cls");
 					printf("Parabens Jogador 1!!!\n");\
 					sleep(2);
@@ -141,7 +152,7 @@ ret1:
 				break;
 			
 			case 5:						//Gravar
-				end_t = clock(); 
+				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
 				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
@@ -154,7 +165,10 @@ ret1:
 				goto ret1;
 				break;	
 			
-			case 7:
+			case 7:						//Mode 123
+				/*
+					Acesso restito apenas para dessenvolvedores que sabem o codigo de acesso
+				*/
 				Trans(campo1,imgcampo1);
 				Trans(campo2,imgcampo2);
 				goto ret1;
@@ -163,7 +177,7 @@ ret1:
 
 	
 ret2:	
-		end_t = clock(); 
+		end_t = clock(); 				//Calcula o tempo passado desde o inicio do jogo
 		tempo = end_t - start_t;
 		tempo = tempo/CLOCKS_PER_SEC;
 		
@@ -177,7 +191,7 @@ ret2:
 				if(aux == 1)
 					goto ret2;	 
 				
-				if(aux == 2){
+				if(aux == 2){			//Com o aux sendo igual a dois todos os barcos inimicos foram abatidos
 					system("cls");
 					printf("Parabens Jogador 2!!!\n");
 					sleep(2);
@@ -209,7 +223,7 @@ ret2:
 				break;
 			
 			case 5:						//Gravar
-				end_t = clock(); 
+				end_t = clock(); 		//Há uma contagem do tempo no instante antes de salvar o campo
 				tempo = end_t - start_t;
 				tempo = tempo/CLOCKS_PER_SEC;
 				Gravar(gravar, &pontos1, &pontos2, &tempo, campo1, campo2, imgcampo1, imgcampo2);
@@ -222,7 +236,10 @@ ret2:
 				goto ret2;	
 				break;
 			
-			case 7:
+			case 7:						//Mode 123
+				/*
+					Acesso restito apenas para dessenvolvedores que sabem o codigo de acesso
+				*/
 				Trans(campo1,imgcampo1);
 				Trans(campo2,imgcampo2);
 				goto ret2;
@@ -827,8 +844,8 @@ esquerda:			if(pos_neg == 1){					//esquerda
 									aux2 = ALTO;
 								}			
 								
-								if(n_char>= N){			//Escreve o barco
-									mat[x][i] = iden;
+								if(n_char>= N){		
+									mat[x][i] = iden;	//Escreve o barco
 								}
 							}
 							else{		//Caso o barco não consiga ocupar o espaço
@@ -856,7 +873,7 @@ esquerda:			if(pos_neg == 1){					//esquerda
 								}
 								
 								/*
-									Inverte o sentido da direita para a direita
+									Inverte o sentido da esqueda para a direita
 								*/	
 								n_char=0;
 								aux = BAIXO;
@@ -897,21 +914,37 @@ baixo:				if(pos_neg == 0){					//baixo
 								}			
 								
 								if(n_char >= N){
-									mat[i][y] = iden; 
+									mat[i][y] = iden; 	//Escreve o barco
 								}		
 							}
 							
-							else{
+							else{			//Caso o barco não consiga ocupar o espaço
 							
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
+										/*
+											Isso so sera verdadeiro caso
+											o barco ja tenha tentado ir para esquerda, 
+											direita, cima e baixo e em nenhum desas opções
+											tenha dado certo para encaixar o barco
+											Portanto sera selecionado um novo lugar na matriz
+											para testes
+										*/											
 										goto inicio;
+										
+									/*
+										Inverte o sentido de vertical para horizontal
+									*/		
 									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 0;	
 									goto hor;
 								}
+								
+								/*
+									Inverte o sentido de baixo para cima
+								*/	
 								n_char=0;
 								aux = BAIXO;
 								pos_neg = 1;
@@ -926,8 +959,13 @@ cima:				if(pos_neg == 1){					//cima
 							if(mat[i][y] == 0 && i>=0){
 								if(aux2 != ALTO)
 									n_char ++;
-												
-								if(n_char == N){		//Reiniciando o for
+							
+								/*
+									Verifica inicioalmente se todos os lugares 
+									na matriz estão disponiveis para a escrita do barco
+								*/
+													
+								if(n_char == N){		//Reiniciando o for caso seja verdade
 									j=0;
 									i=x;
 									n_char ++;
@@ -935,20 +973,36 @@ cima:				if(pos_neg == 1){					//cima
 								}			
 								
 								if(n_char >= N){
-									mat[i][y] = iden;
+									mat[i][y] = iden;	//Escreve o barco
 								}
 							}
-							else{
+							else{		//Caso o barco não consiga ocupar o espaço
 
 								if(aux == BAIXO){
 									if (aux2 == BAIXO && aux == BAIXO)
+										/*
+											Isso so sera verdadeiro caso
+											o barco ja tenha tentado ir para esquerda, 
+											direita, cima e baixo e em nenhum desas opções
+											tenha dado certo para encaixar o barco
+											Portanto sera selecionado um novo lugar na matriz
+											para testes
+										*/	
 										goto inicio;
+									
+									/*
+										Inverte o sentido de vertical para horizontal
+									*/	
 									n_char=0;
 									aux = ALTO;
 									aux2 = BAIXO;								
 									vert_hor = 0;	
 									goto hor;
 								}
+								
+								/*
+									Inverte o sentido de cima para baixo
+								*/	
 								n_char=0;
 								aux = BAIXO;
 								pos_neg = 0;
@@ -957,7 +1011,6 @@ cima:				if(pos_neg == 1){					//cima
 						}
 					}				
 		}		
-//	return;	
 }
 
 //====================================================================
@@ -966,6 +1019,13 @@ cima:				if(pos_neg == 1){					//cima
 
 void Trans(int campo[16][16],char imgcampo[16][16]){		// Função apenas para testes 
 	int i,j;
+	
+	/*
+		Função apenas para desenvolvedores.
+		Com o acionamento desta todos os barcos 
+		podem ser visiveis. 
+		O comando para seu acionamento é Mode 123
+	*/
 	
 	for(i=0;i!=16;i++)
 		for(j=0;j!=16;j++)
@@ -999,6 +1059,11 @@ void Matriz_imagem(int campo[16][16], int jogador,char imgcampo[16][16], int pon
 	int numero = 1;
 	char letra = 'A';
 	
+	/*
+		Apresenta a função de desenhar todo o campo de batalha 
+		Usando para isso o campo de imagem, cujo mostra apenas 
+		os lugares selecionados pelos jogadores.
+	*/
 	system("cls");
 
 	
