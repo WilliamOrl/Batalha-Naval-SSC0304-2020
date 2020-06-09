@@ -14,7 +14,7 @@
 //		Struct das quantidades de peças 
 //====================================================================
 
-typedef struct{
+typedef struct{		//Conta a quantidade de cada barco no Campo
 	int pa;
 	int co;
 	int to;
